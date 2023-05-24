@@ -10,7 +10,12 @@ import { Header } from "../components";
 const Kanban = () => {
   return (
     <div className="m-2 mt-24 rounded-3xl bg-white p-2 md:m-10 md:p-10">
-      <KanbanComponent>
+      <KanbanComponent
+        id="kanban"
+        dataSource={kanbanData}
+        cardSettings={{ contentField: "Summary", headerField: "Id" }}
+        keyField="Status"
+      >
         <ColumnsDirective>
           {kanbanGrid.map((item, index) => (
             <ColumnDirective key={index} {...item} />

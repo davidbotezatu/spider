@@ -33,9 +33,7 @@ const Navbar = () => {
   return (
     <div className="relative flex justify-between p-2 md:mx-6">
       <NavButton
-        customFunc={() =>
-          setActivareSidebar((stareAnterioara) => !stareAnterioara)
-        }
+        customFunc={() => setActivareSidebar((s) => !s)}
         icon={<AiOutlineMenu />}
       />
 

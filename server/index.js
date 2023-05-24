@@ -12,9 +12,11 @@ app.use(cors());
 //connectare la baza de date
 const PORT = process.env.PORT || 5000;
 const DB_CONN =
-  "mongodb+srv://korall-admin:ObJcxO4rTu8lxHCO@korall.2swvddt.mongodb.net/?retryWrites=true&w=majority";
+  "mongodb+srv://spider-admin:Ryr8RQC9b8i8ED1E@spider.du1wb4c.mongodb.net/?retryWrites=true&w=majority";
 
 mongoose
   .connect(DB_CONN)
-  .then(() => app.listen(PORT, () => console.log(`Server port: ${PORT}`)))
+  .then(() =>
+    app.listen(PORT, () => console.log(`Conectare reusita - port ${PORT}`))
+  )
   .catch((error) => console.log(error));
