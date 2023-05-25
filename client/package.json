@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.1.0",
     "@syncfusion/ej2": "^21.2.3",
     "@syncfusion/ej2-react-charts": "^21.2.3",
     "@syncfusion/ej2-react-dropdowns": "^21.2.3",

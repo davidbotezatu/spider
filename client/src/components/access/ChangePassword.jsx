@@ -1,27 +1,20 @@
 import logo from "../../assets/spider.svg";
-import * as Yup from "yup";
+import validation from "../../validations/ChangePasswordValidation";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const ChangePassword = () => {
-  const regexPass =
-    /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*/.!@$%^&(){}[]:;<>,.?~_+-=|\])$/;
-
-  const validareParola = Yup.object().shape({
-    oldPassword: Yup.string().required("Obligatoriu"),
-    newPassword: Yup.string()
-      .required("Obligatoriu")
-      .min(8, "Parola trebuie să aibă minim 8 caractere.")
-      .max(32, "Parola trebuie să aibă maxim 32 caractere.")
-      .matches(
-        regexPass,
-        "Parola trebuie să aibă minim un număr, o literă mică, o literă mare și un caracter special. "
-      ),
-    confirmPass: Yup.string()
-      .required("Obligatoriu")
-      .oneOf(
-        [Yup.ref(newPassword)],
-        "Parola trebuie să fie identică cu cea de mai sus."
-      ),
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(validation),
   });
+
+  const submitForm = (data) => {
+    console.log(data);
+  };
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
@@ -37,56 +30,83 @@ const ChangePassword = () => {
           <h2 className="mb-1 text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-2xl">
             Schimbare parolă
           </h2>
-          <form className="mt-4 space-y-4 md:space-y-5 lg:mt-5" action="#">
+
+          {/** Formular schimbare parola */}
+          <form
+            className="mt-4 space-y-4 md:space-y-5 lg:mt-5"
+            action="#"
+            onSubmit={handleSubmit(submitForm)}
+          >
+            {/** Div parola veche + validare si afisare erori */}
             <div>
               <label
-                htmlFor="password"
+                htmlFor="oldPassword"
                 className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
               >
                 Introdu parola veche
               </label>
               <input
                 type="password"
-                name="old-password"
-                id="old-password"
+                name="oldPassword"
+                id="oldPassword"
                 placeholder="••••••••"
                 className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-blue-600 focus:ring-blue-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                required
+                {...register("oldPassword")}
               />
+              {errors.oldPassword && (
+                <p className="mb-2 block text-sm font-medium text-red-600 dark:text-red-600">
+                  {errors.oldPassword.message}
+                </p>
+              )}
             </div>
+
+            {/** Div parola noua + validare si afisare erori */}
             <div>
               <label
-                htmlFor="new-password"
+                htmlFor="newPassword"
                 className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
               >
                 Introdu parola nouă
               </label>
               <input
                 type="password"
-                name="new-password"
-                id="new-password"
+                name="newPassword"
+                id="newPassword"
                 placeholder="••••••••"
                 className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-blue-600 focus:ring-blue-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                required
+                {...register("newPassword")}
               />
+              {errors.newPassword && (
+                <p className="mb-2 block text-sm font-medium text-red-600 dark:text-red-600">
+                  {errors.newPassword.message}
+                </p>
+              )}
             </div>
+
+            {/** Div confirmare parola noua + validare si afisare erori */}
             <div>
               <label
-                htmlFor="confirm-password"
+                htmlFor="retypePassword"
                 className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
               >
                 Confirmă parola
               </label>
               <input
                 type="password"
-                name="confirm-password"
-                id="confirm-password"
+                name="retypePassword"
+                id="retypePassword"
                 placeholder="••••••••"
                 className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-blue-600 focus:ring-blue-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                required
+                {...register("retypePassword")}
               />
+              {errors.retypePassword && (
+                <p className="mb-2 block text-sm font-medium text-red-600 dark:text-red-600">
+                  {errors.retypePassword.message}
+                </p>
+              )}
             </div>
 
+            {/** Buton de submit */}
             <button
               type="submit"
               className="w-full rounded-lg bg-blue-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
