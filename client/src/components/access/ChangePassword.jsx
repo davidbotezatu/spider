@@ -2,6 +2,7 @@ import logo from "../../assets/spider.svg";
 import validation from "../../validations/ChangePasswordValidation";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Link } from "react-router-dom";
 
 const ChangePassword = () => {
   const {
@@ -19,13 +20,13 @@ const ChangePassword = () => {
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
       <div className="mx-auto flex flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0">
-        <a
-          href="#"
+        <Link
+          to="/"
           className="mb-6 flex items-center text-2xl font-semibold text-gray-900 dark:text-white"
         >
           <img className="mr-2 h-8 w-8" src={logo} alt="logo" />
           Spider
-        </a>
+        </Link>
         <div className="w-full rounded-lg bg-white p-6 shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md sm:p-8 md:mt-0">
           <h2 className="mb-1 text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-2xl">
             Schimbare parolă
