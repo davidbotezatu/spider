@@ -3,31 +3,8 @@ import { BsBugFill, BsKanbanFill } from "react-icons/bs";
 import { HiUserGroup } from "react-icons/hi";
 
 export const links = [
-  {
-    title: "Proiecte",
-    links: [
-      {
-        name: "Proiecte",
-        icon: <BiClipboard />,
-      },
-      {
-        name: "Bugs",
-        icon: <BsBugFill />,
-      },
-      {
-        name: "Kanban",
-        icon: <BsKanbanFill />,
-      },
-    ],
-  },
-
-  {
-    title: "Administrare",
-    links: [
-      {
-        name: "Utilizatori",
-        icon: <HiUserGroup />,
-      },
-    ],
-  },
+  { name: "Proiecte", icon: <BiClipboard size={24} /> },
+  { name: "Bugs", icon: <BsBugFill size={24} />, gap: true },
+  { name: "Kanban", icon: <BsKanbanFill size={24} /> },
+  { name: "Utilizatori", icon: <HiUserGroup size={24} />, gap: true },
 ];

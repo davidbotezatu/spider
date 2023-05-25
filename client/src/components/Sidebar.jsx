@@ -1,71 +1,71 @@
-import { Link, NavLink } from "react-router-dom";
-import { GiSpiderWeb } from "react-icons/gi";
-import { MdOutlineCancel } from "react-icons/md";
+import { useState } from "react";
+
+import navControlImg from "../assets/control.png";
+import spiderLogo from "../assets/spider.svg";
+
 import { links } from "../assets/links";
-import { useStateContext } from "../contexts/ContextProvider";
 
 const Sidebar = () => {
-  const { activareSidebar, setActivareSidebar } = useStateContext();
-
-  const activeLink =
-    "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-md m-2";
-  const normalLink =
-    "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-md text-gray-700 dark:text-gray-200 dark:hover:text-black hover:bg-slate-200 m-2";
+  const [control, setControl] = useState(true);
 
   return (
-    <div className="ml-3 h-screen overflow-auto pb-10 md:overflow-hidden md:hover:overflow-auto">
-      {activareSidebar && (
-        <>
-          {/* titlu si control sidebar */}
-          <div className="flex items-center justify-between">
-            {/* Logo si titlu */}
-            <Link
-              to="/"
-              onClick={() => setActivareSidebar(false)}
-              className="item-center ml-3 mt-4 flex gap-3 text-xl font-extrabold tracking-tight text-slate-900 dark:text-white"
-            >
-              <GiSpiderWeb />
-              <span>Spider</span>
-            </Link>
+    <aside className="flex">
+      {/** Sidebar */}
+      <div
+        className={`${
+          control ? "w-72" : "w-20"
+        } relative h-screen bg-gray-200 p-5 pt-8 duration-300`}
+      >
+        {/** Buton inchis/deschis sidebar-ul */}
+        <img
+          src={navControlImg}
+          className={`${
+            !control && "rotate-180"
+          } absolute -right-3 top-9 w-7 cursor-pointer rounded-full border-2 border-gray-200`}
+          onClick={() => setControl(!control)}
+        />
 
-            {/*buton control sidebar */}
-            <button
-              type="button"
-              onClick={() =>
-                setActivareSidebar((starePrecedenta) => !starePrecedenta)
-              }
-              className="block rounded-full p-3 text-xl hover:bg-slate-100 md:hidden"
-            >
-              <MdOutlineCancel />
-            </button>
-          </div>
+        {/** Logo */}
+        <div className="flex items-center gap-x-4">
+          <img
+            className={`${
+              control && "rotate-[360deg]"
+            } h-10 w-10 cursor-pointer duration-500`}
+            src={spiderLogo}
+            alt="Logo"
+          />
+          <h1
+            className={`origin-left text-xl font-medium duration-300 ${
+              !control && "scale-0"
+            }`}
+          >
+            Spider
+          </h1>
+        </div>
 
-          {/* Meniu sidebar */}
-          <div className="mt-10">
-            {links.map((item) => (
-              <div key={item.title}>
-                <p className="m-3 mt-4 uppercase text-slate-400">
-                  {item.title}
-                </p>
-                {item.links.map((link) => (
-                  <NavLink
-                    to={`/${link.name}`}
-                    key={link.name}
-                    onClick={() => {}}
-                    className={({ isActive }) =>
-                      isActive ? activeLink : normalLink
-                    }
-                  >
-                    {link.icon}
-                    <span className="capitalize">{link.name}</span>
-                  </NavLink>
-                ))}
-              </div>
-            ))}
-          </div>
-        </>
-      )}
-    </div>
+        {/** Lista de link-uri */}
+        <ul className="pt-6">
+          {links.map((link, index) => (
+            <li
+              key={index}
+              className={`${link.gap ? "mt-9" : "mt-2"} ${
+                index === 0 && "bg-slate-500"
+              } flex cursor-pointer items-center gap-x-4 rounded-md p-2 text-sm hover:bg-cyan-500`}
+            >
+              {link.icon}
+              <span
+                className={`${!control && "hidden"} origin-left duration-200`}
+              >
+                {link.name}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="h-screen flex-1 p-7 text-2xl font-semibold">
+        <h1>HomePage</h1>
+      </div>
+    </aside>
   );
 };
 
