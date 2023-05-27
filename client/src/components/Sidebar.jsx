@@ -4,39 +4,40 @@ import navControlImg from "../assets/control.png";
 import spiderLogo from "../assets/spider.svg";
 
 import { links } from "../assets/links";
+import { useStateContext } from "../contexts/ContextProvider";
 
 const Sidebar = () => {
-  const [control, setControl] = useState(true);
+  const { openSidebar, setOpenSidebar } = useStateContext();
 
   return (
-    <aside className="flex">
+    <aside className="z-40">
       {/** Sidebar */}
       <div
         className={`${
-          control ? "w-72" : "w-20"
+          openSidebar ? "w-72" : "w-20"
         } relative h-screen bg-gray-200 p-5 pt-8 duration-300`}
       >
         {/** Buton inchis/deschis sidebar-ul */}
         <img
           src={navControlImg}
           className={`${
-            !control && "rotate-180"
+            !openSidebar && "rotate-180"
           } absolute -right-3 top-9 w-7 cursor-pointer rounded-full border-2 border-gray-200`}
-          onClick={() => setControl(!control)}
+          onClick={() => setOpenSidebar(!openSidebar)}
         />
 
         {/** Logo */}
         <div className="flex items-center gap-x-4">
           <img
             className={`${
-              control && "rotate-[360deg]"
+              openSidebar && "rotate-[360deg]"
             } h-10 w-10 cursor-pointer duration-500`}
             src={spiderLogo}
             alt="Logo"
           />
           <h1
             className={`origin-left text-xl font-medium duration-300 ${
-              !control && "scale-0"
+              !openSidebar && "scale-0"
             }`}
           >
             Spider
@@ -49,21 +50,20 @@ const Sidebar = () => {
             <li
               key={index}
               className={`${link.gap ? "mt-9" : "mt-2"} ${
-                index === 0 && "bg-slate-500"
+                index === 0 && "bg-cyan-400"
               } flex cursor-pointer items-center gap-x-4 rounded-md p-2 text-sm hover:bg-cyan-500`}
             >
               {link.icon}
               <span
-                className={`${!control && "hidden"} origin-left duration-200`}
+                className={`${
+                  !openSidebar && "hidden"
+                } origin-left duration-200`}
               >
                 {link.name}
               </span>
             </li>
           ))}
         </ul>
-      </div>
-      <div className="h-screen flex-1 p-7 text-2xl font-semibold">
-        <h1>HomePage</h1>
       </div>
     </aside>
   );

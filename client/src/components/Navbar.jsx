@@ -1,32 +1,49 @@
+import React, { useRef, useEffect } from "react";
 import { MdKeyboardArrowDown } from "react-icons/md";
 
 import avatar from "../assets/avatar.jpg";
-import { ProfilUtilizator } from ".";
+import { UserProfile } from ".";
 import { useStateContext } from "../contexts/ContextProvider";
 
 const Navbar = () => {
-  const { clicked, handleClick } = useStateContext();
+  const { isDropdownOpen, toggleUserProfile } = useStateContext();
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        toggleUserProfile();
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [toggleUserProfile]);
 
   return (
-    <div className="relative flex justify-between p-2 md:mx-6">
-      <div className="flex">
-        <div
+    <header className="h-auto bg-gray-200">
+      <nav className="container mx-auto flex justify-end">
+        <button
           className="flex cursor-pointer items-center gap-2 rounded-lg p-1 hover:bg-slate-200"
-          onClick={() => handleClick("profilUtilizator")}
+          onClick={toggleUserProfile}
         >
-          <img src={avatar} className="h-8 w-8 rounded-full" />
+          <img src={avatar} className="h-8 w-8 rounded-full" alt="avatar" />
           <p>
-            <span className="text-[14px] text-gray-400">Hi, </span>{" "}
-            <span className="ml-1 text-[14px] font-bold text-gray-400">
+            <span className="text-[14px] text-gray-600">Hi, </span>{" "}
+            <span className="ml-1 text-[14px] font-bold text-gray-600">
               Test
             </span>
           </p>
           <MdKeyboardArrowDown className="text-[14px] text-gray-400" />
-        </div>
+        </button>
 
-        {clicked.profilUtilizator && <ProfilUtilizator />}
-      </div>
-    </div>
+        {isDropdownOpen && <UserProfile ref={dropdownRef} />}
+      </nav>
+    </header>
   );
 };
+
 export default Navbar;

@@ -2,27 +2,21 @@ import { createContext, useContext, useState } from "react";
 
 const StateContext = createContext();
 
-const stareInitiala = {
-  notificari: false,
-  profilUtilizator: false,
-};
-
 export const ContextProvider = ({ children }) => {
-  const [activareSidebar, setActivareSidebar] = useState(true);
-  const [clicked, setClicked] = useState(stareInitiala);
+  const [openSidebar, setOpenSidebar] = useState(true);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const handleClick = (e) => {
-    setClicked({ ...stareInitiala, [e]: true });
+  const toggleUserProfile = () => {
+    setIsDropdownOpen(!isDropdownOpen);
   };
 
   return (
     <StateContext.Provider
       value={{
-        activareSidebar,
-        setActivareSidebar,
-        clicked,
-        setClicked,
-        handleClick,
+        openSidebar,
+        setOpenSidebar,
+        isDropdownOpen,
+        toggleUserProfile,
       }}
     >
       {children}

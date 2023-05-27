@@ -1,5 +1,5 @@
-import logo from "../../assets/spider.svg";
-import validation from "../../validations/LoginValidation";
+import logo from "../assets/spider.svg";
+import validation from "../validations/LoginValidation";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -16,7 +16,7 @@ const Login = () => {
   };
 
   return (
-    <section className="bg-gray-50 dark:bg-gray-900">
+    <section className="bg-gray-100 dark:bg-gray-900">
       <div className="mx-auto flex flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0">
         <Link
           to="/"
