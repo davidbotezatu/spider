@@ -11,14 +11,6 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.1.0",
-    "@syncfusion/ej2": "^21.2.3",
-    "@syncfusion/ej2-react-charts": "^21.2.3",
-    "@syncfusion/ej2-react-dropdowns": "^21.2.3",
-    "@syncfusion/ej2-react-grids": "^21.2.3",
-    "@syncfusion/ej2-react-inputs": "^21.2.3",
-    "@syncfusion/ej2-react-kanban": "^21.2.3",
-    "@syncfusion/ej2-react-popups": "^21.2.3",
-    "@syncfusion/ej2-react-richtexteditor": "^21.2.3",
     "axios": "^1.4.0",
     "moment": "^2.29.4",
     "mongodb": "^5.5.0",
@@ -28,8 +20,6 @@
     "react-hook-form": "^7.43.9",
     "react-icons": "^4.8.0",
     "react-router-dom": "^6.11.1",
-    "redux": "^4.2.1",
-    "redux-thunk": "^2.4.2",
     "yup": "^1.1.1"
   },
   "devDependencies": {
