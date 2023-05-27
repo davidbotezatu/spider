@@ -1,5 +1,5 @@
 import { useStateContext } from "../contexts/ContextProvider";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { BiClipboard } from "react-icons/bi";
 import { BsBugFill, BsKanbanFill } from "react-icons/bs";
 import { HiUserGroup } from "react-icons/hi";
@@ -9,6 +9,7 @@ import spiderLogo from "../assets/spider.svg";
 
 const Sidebar = () => {
   const { openSidebar, setOpenSidebar } = useStateContext();
+  const location = useLocation();
 
   const links = [
     { name: "Proiecte", icon: <BiClipboard size={24} />, path: "/" },
@@ -71,12 +72,14 @@ const Sidebar = () => {
               className={`${!openSidebar && "hidden"} font-semibold`}
             >
               <li
-                className={`${link.gap ? "mt-9" : "mt-2"} ${
-                  index === 0 && "bg-cyan-400"
-                } flex cursor-pointer items-center gap-x-4 rounded-md p-2 text-sm hover:bg-cyan-500`}
+                className={`${
+                  link.gap ? "mt-9" : "mt-2"
+                } flex cursor-pointer items-center gap-x-4 rounded-md p-2 text-sm hover:bg-cyan-500 ${
+                  location.pathname === link.path ? "bg-cyan-400" : ""
+                }`}
               >
                 {link.icon}
-                <span>{link.name}</span>
+                <span className="outline-none">{link.name}</span>
               </li>
             </NavLink>
           ))}
