@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { MdOutlineCancel } from "react-icons/md";
 
 import avatar from "../../data/avatar.jpg";
 import Logout from "./Logout";

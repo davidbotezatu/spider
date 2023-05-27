@@ -1,13 +1,31 @@
-import { useState } from "react";
+import { useStateContext } from "../contexts/ContextProvider";
+import { NavLink } from "react-router-dom";
+import { BiClipboard } from "react-icons/bi";
+import { BsBugFill, BsKanbanFill } from "react-icons/bs";
+import { HiUserGroup } from "react-icons/hi";
 
 import navControlImg from "../assets/control.png";
 import spiderLogo from "../assets/spider.svg";
 
-import { links } from "../assets/links";
-import { useStateContext } from "../contexts/ContextProvider";
-
 const Sidebar = () => {
   const { openSidebar, setOpenSidebar } = useStateContext();
+
+  const links = [
+    { name: "Proiecte", icon: <BiClipboard size={24} />, path: "/" },
+    {
+      name: "Taskuri",
+      icon: <BsBugFill size={24} />,
+      gap: true,
+      path: "/tasks",
+    },
+    { name: "Kanban", icon: <BsKanbanFill size={24} />, path: "/kanban" },
+    {
+      name: "Utilizatori",
+      icon: <HiUserGroup size={24} />,
+      gap: true,
+      path: "/users",
+    },
+  ];
 
   return (
     <aside className="z-40">
@@ -47,21 +65,20 @@ const Sidebar = () => {
         {/** Lista de link-uri */}
         <ul className="pt-6">
           {links.map((link, index) => (
-            <li
+            <NavLink
               key={index}
-              className={`${link.gap ? "mt-9" : "mt-2"} ${
-                index === 0 && "bg-cyan-400"
-              } flex cursor-pointer items-center gap-x-4 rounded-md p-2 text-sm hover:bg-cyan-500`}
+              to={link.path}
+              className={`${!openSidebar && "hidden"} font-semibold`}
             >
-              {link.icon}
-              <span
-                className={`${
-                  !openSidebar && "hidden"
-                } origin-left duration-200`}
+              <li
+                className={`${link.gap ? "mt-9" : "mt-2"} ${
+                  index === 0 && "bg-cyan-400"
+                } flex cursor-pointer items-center gap-x-4 rounded-md p-2 text-sm hover:bg-cyan-500`}
               >
-                {link.name}
-              </span>
-            </li>
+                {link.icon}
+                <span>{link.name}</span>
+              </li>
+            </NavLink>
           ))}
         </ul>
       </div>
