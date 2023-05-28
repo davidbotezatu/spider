@@ -25,7 +25,7 @@ const Navbar = () => {
 
   return (
     <header className="h-auto bg-gray-200">
-      <nav className="container mx-auto flex justify-end">
+      <nav className="mx-auto flex justify-end">
         <button
           className="flex cursor-pointer items-center gap-2 rounded-lg p-1 hover:bg-slate-200"
           onClick={toggleUserProfile}

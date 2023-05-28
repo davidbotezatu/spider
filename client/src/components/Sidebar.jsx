@@ -66,11 +66,7 @@ const Sidebar = () => {
         {/** Lista de link-uri */}
         <ul className="pt-6">
           {links.map((link, index) => (
-            <NavLink
-              key={index}
-              to={link.path}
-              className={`${!openSidebar && "hidden"} font-semibold`}
-            >
+            <NavLink key={index} to={link.path}>
               <li
                 className={`${
                   link.gap ? "mt-9" : "mt-2"
@@ -79,7 +75,9 @@ const Sidebar = () => {
                 }`}
               >
                 {link.icon}
-                <span className="outline-none">{link.name}</span>
+                <span className={`${!openSidebar && "hidden"} font-semibold`}>
+                  {link.name}
+                </span>
               </li>
             </NavLink>
           ))}

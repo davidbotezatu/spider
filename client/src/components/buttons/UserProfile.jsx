@@ -27,7 +27,7 @@ const UserProfile = React.forwardRef((props, ref) => {
   return (
     <div
       ref={ref}
-      className="nav-item absolute right-1 top-16 w-96 rounded-lg bg-white p-8 dark:bg-[#42464D]"
+      className="right-15 absolute top-10 w-96 rounded-lg bg-white p-8 dark:bg-[#42464D]"
     >
       <div className="flex items-center justify-center">
         <p className="text-lg font-semibold dark:text-gray-200">User Profile</p>
