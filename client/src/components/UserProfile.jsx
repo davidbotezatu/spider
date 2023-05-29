@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 
-import avatar from "../../data/avatar.jpg";
-import Logout from "./Logout";
-import ChangePassword from "./ChangePassword";
+import avatar from "../assets/avatar.png";
+import Logout from "./buttons/Logout";
+import ChangePassword from "./buttons/ChangePassword";
 
-import { useStateContext } from "../../contexts/ContextProvider";
+import { useStateContext } from "../contexts/ContextProvider";
 
 const UserProfile = React.forwardRef((props, ref) => {
   const { toggleUserProfile } = useStateContext();

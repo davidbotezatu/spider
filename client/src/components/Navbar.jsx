@@ -1,27 +1,13 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import { MdKeyboardArrowDown } from "react-icons/md";
 
-import avatar from "../assets/avatar.jpg";
+import avatar from "../assets/avatar.png";
 import { UserProfile } from ".";
 import { useStateContext } from "../contexts/ContextProvider";
 
 const Navbar = () => {
   const { isDropdownOpen, toggleUserProfile } = useStateContext();
   const dropdownRef = useRef(null);
-
-  useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        toggleUserProfile();
-      }
-    };
-
-    document.addEventListener("mousedown", handleOutsideClick);
-
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  }, [toggleUserProfile]);
 
   return (
     <header className="h-auto bg-gray-200">

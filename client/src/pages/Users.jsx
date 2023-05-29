@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { AddUserModal } from "../modals";
 import API_BASE_URL from "../assets/ApiConfig";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     // Fetch user data from the server
@@ -19,41 +21,90 @@ const Users = () => {
     fetchUsers();
   }, []);
 
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div>
-      <h1 className="mb-4 text-xl font-semibold">All Users</h1>
+      <div className="mb-4 flex items-center justify-between">
+        <h1 className="flex items-center text-xl font-semibold">Add User</h1>
+        <button
+          className="rounded-md bg-blue-500 px-3 py-1 text-white"
+          onClick={openModal}
+        >
+          Add
+        </button>
+      </div>
+
       {users.length > 0 ? (
-        <div className="overflow-x-auto">
-          <table className="w-full table-auto border-collapse text-left">
-            <thead>
-              <tr className="">
-                <th className="px-4 py-2">Nume</th>
-                <th className="px-4 py-2">Email</th>
-                <th className="px-4 py-2">Rol</th>
-                <th className="px-4 py-2">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((user) => (
-                <tr key={user.id}>
-                  <td className="border px-4 py-2">{`${user.nume} ${user.prenume}`}</td>
-                  <td className="border px-4 py-2">{user.email}</td>
-                  <td className="border px-4 py-2">{user.rol}</td>
-                  <td className="border px-4 py-2">
-                    <button className="rounded-md bg-green-500 px-3 py-1 text-white hover:bg-red-600">
-                      Edit
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="flex flex-col">
+          <div className=" overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className=" inline-block min-w-full py-2 sm:px-6 lg:px-8">
+              <div className=" overflow-hidden">
+                <table className=" min-w-full text-left text-sm font-light">
+                  <thead className="border-b font-medium dark:border-neutral-500">
+                    <tr>
+                      <th scope="col" className="px-6 py-4">
+                        #
+                      </th>
+                      <th scope="col" className="px-6 py-4">
+                        Nume
+                      </th>
+                      <th scope="col" className="px-6 py-4">
+                        Email
+                      </th>
+                      <th scope="col" className="px-6 py-4">
+                        Rol
+                      </th>
+                      <th scope="col" className="px-6 py-4"></th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {users.map((user) => (
+                      <tr
+                        className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
+                        key={user.id}
+                      >
+                        <td className="whitespace-nowrap px-6 py-4 font-medium">
+                          <img
+                            src={user.avatar}
+                            alt="Avatar"
+                            className="h-10 w-10 rounded-full"
+                          />
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4">{`${user.nume} ${user.prenume}`}</td>
+                        <td className="whitespace-nowrap px-6 py-4">
+                          {user.email}
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4">
+                          {user.role.nume}
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4">
+                          <button className="rounded-md bg-green-500 px-3 py-1 text-white hover:bg-green-700">
+                            Edit
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
       ) : (
         <p className="mb-2 block text-sm font-medium text-red-600 dark:text-red-600">
           Nu există utilizatori.
         </p>
       )}
+
+      <AddUserModal isOpen={isModalOpen} closeModal={closeModal} />
     </div>
   );
 };

@@ -2,15 +2,15 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 require("dotenv").config();
 
-const createAdminUser = async () => {
+const addAdmin = async () => {
   const parola = process.env.ADMIN_PASS;
   const hashedPass = await bcrypt.hash(parola, 10);
 
   try {
     // Check if admin user already exists
-    const existingAdminUser = await User.findOne({ rol: "admin" });
+    const existingAdminUser = await User.findOne({ email: "admin@company.ro" });
     if (existingAdminUser) {
-      console.log("Admin user already exists:", existingAdminUser.toJSON());
+      console.log("admin@company.ro user exista deja");
       return;
     }
 
@@ -19,16 +19,17 @@ const createAdminUser = async () => {
       email: "admin@company.ro",
       nume: "Admin",
       prenume: "Admin",
-      rol: "Administrator",
+      rol: 1,
       parola: hashedPass,
+      avatar: "/src/assets/avatar.png",
     });
 
-    console.log("Admin user created:", adminUser.toJSON());
+    console.log("admin@company.ro creat:", adminUser.toJSON());
   } catch (error) {
-    console.error("Error creating admin user:", error);
+    console.error("Eroare creare Admin:", error);
   }
 };
 
 module.exports = {
-  createAdminUser,
+  addAdmin,
 };

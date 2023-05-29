@@ -13,7 +13,7 @@ const App = () => {
 
       <div className="flex w-full flex-col">
         <Navbar />
-        <main className="h-full bg-gray-100 p-4">
+        <main className="h-full bg-gray-100 p-10">
           {/* Routes */}
           <Routes>
             <Route path="/" element={<Proiecte />} />

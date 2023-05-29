@@ -9,24 +9,23 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors({ origin: "http://localhost:5173" }));
 
-// Import your Sequelize models and database connection
 const sequelize = require("./config/database");
 
-// Import the addAdmin.js script
-const { createAdminUser } = require("./sql/addAdmin");
+const { addAdmin } = require("./sql/addAdmin");
+const { addUserRoles } = require("./sql/addUserRoles");
 
-//import routes
 const usersRoutes = require("./routes/usersRoutes");
+const userRoleRoutes = require("./routes/userRolesRoutes");
 
 // Sync the database models
 sequelize
   .sync()
   .then(async () => {
-    // Execute the addAdmin.js script to create the admin user
-    await createAdminUser();
+    await addUserRoles();
+    await addAdmin();
     app.use("/api/users", usersRoutes);
+    app.use("/api/userroles", userRoleRoutes);
 
-    // Start the server
     const PORT = process.env.PORT || 5000;
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
