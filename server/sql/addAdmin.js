@@ -1,6 +1,11 @@
 const User = require("../models/User");
+const bcrypt = require("bcryptjs");
+require("dotenv").config();
 
 const createAdminUser = async () => {
+  const parola = process.env.ADMIN_PASS;
+  const hashedPass = await bcrypt.hash(parola, 10);
+
   try {
     // Check if admin user already exists
     const existingAdminUser = await User.findOne({ rol: "admin" });
@@ -14,7 +19,8 @@ const createAdminUser = async () => {
       email: "admin@company.ro",
       nume: "Admin",
       prenume: "Admin",
-      rol: "admin",
+      rol: "Administrator",
+      parola: hashedPass,
     });
 
     console.log("Admin user created:", adminUser.toJSON());
