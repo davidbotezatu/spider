@@ -3,72 +3,140 @@ import Modal from "react-modal";
 import axios from "axios";
 import validation from "../validations/AddUserValidation";
 import API_BASE_URL from "../assets/ApiConfig";
-import AvatarField from "../components/AvatarField";
 import { FiX } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 Modal.setAppElement("#root");
 
-const AddUserModal = ({ isOpen, closeModal }) => {
+const UserModal = ({ isOpen, closeModal, onSubmit, editUser }) => {
   const [roles, setRoles] = useState([]);
-  const [avatar, setAvatar] = useState(null);
+  const [avatar, setAvatar] = useState("/src/assets/avatar.png");
   const [mustResetPassword, setMustResetPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({ resolver: yupResolver(validation) });
 
-  const submitForm = (data) => {
-    console.log(data, avatar);
+  const handleAvatarChange = (event) => {
+    setAvatar(event.target.value);
   };
 
-  const handleAvatarChange = (value) => {
-    setAvatar(value);
+  const fetchRoles = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/userroles`);
+      const rolesData = response.data;
+      setRoles(rolesData);
+    } catch (error) {
+      console.error("Error fetching roles:", error);
+    }
   };
 
   useEffect(() => {
-    const fetchRoles = async () => {
-      try {
-        const response = await axios.get(`${API_BASE_URL}/userroles`);
-        const data = response.data;
-        setRoles(data);
-      } catch (error) {
-        console.error("Failed to fetch user roles:", error);
-      }
-    };
-
     fetchRoles();
-  }, []);
 
-  const handleResetPasswordChange = (event) => {
-    setMustResetPassword(event.target.checked);
+    if (editUser) {
+      reset({
+        avatar: editUser.avatar,
+        nume: editUser.nume,
+        prenume: editUser.prenume,
+        email: editUser.email,
+        rol: editUser.rol,
+      });
+      setMustResetPassword(editUser.schimbaParola);
+      setAvatar(editUser.avatar);
+    }
+  }, [editUser, reset]);
+
+  const submitForm = async (data) => {
+    setAvatar(data.avatar);
+
+    try {
+      const formData = {
+        nume: editUser || data.nume,
+        prenume: editUser || data.prenume,
+        email: editUser || data.email,
+        parola: editUser || data.parola,
+        avatar: editUser || avatar,
+        rol: parseInt(data.rol),
+        schimbaParola: mustResetPassword,
+      };
+
+      console.log(formData);
+
+      if (editUser) {
+        const response = await axios.put(
+          `${API_BASE_URL}/users/${editUser.id}`,
+          formData
+        );
+
+        console.log("User updated");
+        onSubmit(formData);
+        closeModal();
+      } else {
+        // Send the POST request to create a new user
+        const response = await axios.post(`${API_BASE_URL}/users`, formData);
+        const newUser = response.data;
+
+        // Handle the response or update the UI as needed
+        console.log("New user created:", newUser);
+        onSubmit(formData);
+        closeModal();
+      }
+    } catch (error) {
+      console.error("Eroare creare utilizator nou: ", error);
+      setErrorMessage("Adresa de email este utilizată");
+    }
   };
 
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={closeModal}
-      contentLabel="Add User Modal"
+      contentLabel={editUser ? "Edit User Modal" : "Add User Modal"}
       className="modal fixed inset-0 z-50 flex items-center justify-center"
       overlayClassName="modal-overlay fixed inset-0 bg-black bg-opacity-50 z-40"
     >
       <div className="modal-content z-50 rounded-lg bg-white p-4">
         <div className="mb-4 flex justify-between">
           <h1 className="mr-4 text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-2xl">
-            Adăugare utilizator nou
+            {editUser ? "Editare utilizator" : "Adăugare utilizator nou"}
           </h1>
           <button className="text-gray-500" onClick={closeModal}>
             <FiX size={24} />
           </button>
         </div>
-        <form action="#" onSubmit={handleSubmit(submitForm)}>
+        <form onSubmit={handleSubmit(submitForm)}>
           <div className="w-full rounded-lg bg-white shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0 xl:p-0">
             <div className="space-y-4 p-6 sm:p-8 md:space-y-6">
               {/* Avatar field */}
-              <AvatarField onChange={handleAvatarChange} />
+              <div>
+                <label
+                  htmlFor="avatar"
+                  className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Adaugă un avatar
+                </label>
+                <div className="flex items-center">
+                  <img
+                    src={avatar}
+                    alt="Avatar"
+                    className="mr-4 h-16 w-16 rounded-full"
+                  />
+                  <div>
+                    <input
+                      type="text"
+                      placeholder="Enter image URL"
+                      onChange={handleAvatarChange}
+                      className="mt-2 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-blue-600 focus:ring-blue-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
+                    />
+                  </div>
+                </div>
+              </div>
 
               {/** Nume + validari */}
               <div>
@@ -137,27 +205,32 @@ const AddUserModal = ({ isOpen, closeModal }) => {
                     {errors.email.message}
                   </p>
                 )}
+                {errorMessage && (
+                  <p className="mb-2 block text-sm font-medium text-red-600 dark:text-red-600">
+                    {errorMessage}
+                  </p>
+                )}
               </div>
 
               {/** Parola + validari */}
               <div>
                 <label
-                  htmlFor="password"
+                  htmlFor="parola"
                   className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Introdu parola contului
                 </label>
                 <input
-                  type="password"
-                  name="password"
-                  id="password"
+                  type="parola"
+                  name="parola"
+                  id="parola"
                   placeholder="••••••••"
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-blue-600 focus:ring-blue-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                  {...register("password")}
+                  {...register("parola")}
                 />
-                {errors.password && (
+                {errors.parola && (
                   <p className="mb-2 block text-sm font-medium text-red-600 dark:text-red-600">
-                    {errors.password.message}
+                    {errors.parola.message}
                   </p>
                 )}
               </div>
@@ -226,4 +299,4 @@ const AddUserModal = ({ isOpen, closeModal }) => {
   );
 };
 
-export default AddUserModal;
+export default UserModal;

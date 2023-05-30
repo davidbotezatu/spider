@@ -22,6 +22,7 @@ const addAdmin = async () => {
       rol: 1,
       parola: hashedPass,
       avatar: "/src/assets/avatar.png",
+      schimbaParola: false,
     });
 
     console.log("admin@company.ro creat:", adminUser.toJSON());

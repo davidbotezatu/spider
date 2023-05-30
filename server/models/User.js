@@ -38,6 +38,10 @@ const User = sequelize.define("User", {
       key: "id",
     },
   },
+  schimbaParola: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+  },
 });
 
 // Define the association
