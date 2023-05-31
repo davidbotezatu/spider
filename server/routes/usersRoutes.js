@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
+const randomPass = require("../utils/generatePassword");
 
 const User = require("../models/User");
 const UserRole = require("../models/UserRole");
@@ -29,11 +30,10 @@ router.get("/", async (req, res) => {
 // Create a new user
 router.post("/", async (req, res) => {
   try {
-    const { nume, prenume, email, parola, avatar, rol, schimbaParola } =
-      req.body;
+    const { nume, prenume, email, avatar, rol, schimbaParola } = req.body;
 
     // Hash the password
-    const hashedPassword = await bcrypt.hash(parola, 10);
+    const hashedPassword = await bcrypt.hash(randomPass, 10);
 
     // Create a new user with the hashed password
     const newUser = await User.create({
@@ -56,7 +56,8 @@ router.post("/", async (req, res) => {
 // Update an existing user
 router.put("/:id", async (req, res) => {
   try {
-    const { nume, prenume, email, avatar, rol, schimbaParola } = req.body;
+    const { avatar, nume, prenume, email, parola, rol, schimbaParola } =
+      req.body;
     const userId = req.params.id;
 
     // Find the user by ID
@@ -67,10 +68,11 @@ router.put("/:id", async (req, res) => {
     }
 
     // Update the user fields
+    user.avatar = avatar;
     user.nume = nume;
     user.prenume = prenume;
     user.email = email;
-    user.avatar = avatar;
+    parola && (user.parola = await bcrypt.hash(parola, 10));
     user.rol = rol;
     user.schimbaParola = schimbaParola;
 

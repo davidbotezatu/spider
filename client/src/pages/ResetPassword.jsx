@@ -1,5 +1,5 @@
 import logo from "../assets/spider.svg";
-import validation from "../validations/ResetPasswordValidation";
+import { userValidation } from "../validations";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Link } from "react-router-dom";
@@ -12,7 +12,7 @@ const ResetPassword = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(validation) });
+  } = useForm({ resolver: yupResolver(userValidation) });
 
   const submitForm = (data) => {
     console.log(data);

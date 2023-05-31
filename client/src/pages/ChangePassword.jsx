@@ -1,5 +1,5 @@
 import logo from "../assets/spider.svg";
-import validation from "../validations/ChangePasswordValidation";
+import { passwordValidation } from "../validations";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Link } from "react-router-dom";
@@ -10,7 +10,7 @@ const ChangePassword = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(validation),
+    resolver: yupResolver(passwordValidation),
   });
 
   const submitForm = (data) => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import axios from "axios";
-import validation from "../validations/AddUserValidation";
+import { userValidation } from "../validations";
 import API_BASE_URL from "../assets/ApiConfig";
 import { FiX } from "react-icons/fi";
 import { useForm } from "react-hook-form";
@@ -20,7 +20,12 @@ const UserModal = ({ isOpen, closeModal, onSubmit, editUser }) => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(validation) });
+  } = useForm({
+    resolver: yupResolver(userValidation),
+    defaultValues: {
+      parola: null,
+    },
+  });
 
   const handleAvatarChange = (event) => {
     setAvatar(event.target.value);
@@ -46,6 +51,7 @@ const UserModal = ({ isOpen, closeModal, onSubmit, editUser }) => {
         prenume: editUser.prenume,
         email: editUser.email,
         rol: editUser.rol,
+        parola: null,
       });
       setMustResetPassword(editUser.schimbaParola);
       setAvatar(editUser.avatar);
@@ -57,11 +63,11 @@ const UserModal = ({ isOpen, closeModal, onSubmit, editUser }) => {
 
     try {
       const formData = {
-        nume: editUser || data.nume,
-        prenume: editUser || data.prenume,
-        email: editUser || data.email,
-        parola: editUser || data.parola,
-        avatar: editUser || avatar,
+        nume: data.nume,
+        prenume: data.prenume,
+        email: data.email,
+        avatar: avatar,
+        parola: data.parola,
         rol: parseInt(data.rol),
         schimbaParola: mustResetPassword,
       };
@@ -97,7 +103,7 @@ const UserModal = ({ isOpen, closeModal, onSubmit, editUser }) => {
     <Modal
       isOpen={isOpen}
       onRequestClose={closeModal}
-      contentLabel={editUser ? "Edit User Modal" : "Add User Modal"}
+      contentLabel={editUser ? "Editare utilizator" : "Adăugare utilizator nou"}
       className="modal fixed inset-0 z-50 flex items-center justify-center"
       overlayClassName="modal-overlay fixed inset-0 bg-black bg-opacity-50 z-40"
     >
@@ -213,27 +219,29 @@ const UserModal = ({ isOpen, closeModal, onSubmit, editUser }) => {
               </div>
 
               {/** Parola + validari */}
-              <div>
-                <label
-                  htmlFor="parola"
-                  className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Introdu parola contului
-                </label>
-                <input
-                  type="parola"
-                  name="parola"
-                  id="parola"
-                  placeholder="••••••••"
-                  className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-blue-600 focus:ring-blue-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                  {...register("parola")}
-                />
-                {errors.parola && (
-                  <p className="mb-2 block text-sm font-medium text-red-600 dark:text-red-600">
-                    {errors.parola.message}
-                  </p>
-                )}
-              </div>
+              {editUser && (
+                <div>
+                  <label
+                    htmlFor="parola"
+                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Introdu parola contului
+                  </label>
+                  <input
+                    type="parola"
+                    name="parola"
+                    id="parola"
+                    placeholder="••••••••"
+                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-blue-600 focus:ring-blue-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
+                    {...register("parola")}
+                  />
+                  {errors.parola && (
+                    <p className="mb-2 block text-sm font-medium text-red-600 dark:text-red-600">
+                      {errors.parola.message}
+                    </p>
+                  )}
+                </div>
+              )}
 
               {/** Rol utilizator */}
               <div>

@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { UserModal } from "../modals";
 import API_BASE_URL from "../assets/ApiConfig";
+import { UserModal } from "../modals";
+import { Pagination } from "../components";
+import { useStateContext } from "../contexts/ContextProvider";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalSubmitted, setIsModalSubmitted] = useState(false);
   const [editUser, setEditUser] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+
+  const { currentPage, setTotalPages } = useStateContext();
 
   useEffect(() => {
     // Fetch user data from the server
@@ -32,12 +34,8 @@ const Users = () => {
     fetchUsers();
   }, [isModalSubmitted, currentPage]);
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
   };
 
   const handleModalSubmit = () => {
@@ -46,23 +44,12 @@ const Users = () => {
 
   const handleEditUser = (user) => {
     setEditUser(user);
-    setIsModalOpen(true);
+    toggleModal();
   };
 
-  const goToPage = (page) => {
-    setCurrentPage(page);
-  };
-
-  const goToPreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const goToNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
+  const handleAddUser = () => {
+    setEditUser(null);
+    toggleModal();
   };
 
   const renderUserRow = () => {
@@ -104,7 +91,7 @@ const Users = () => {
         <h1 className="flex items-center text-xl font-semibold">Utilizatori</h1>
         <button
           className="rounded-md bg-blue-500 px-3 py-1 text-white"
-          onClick={openModal}
+          onClick={() => handleAddUser()}
         >
           Adăugare
         </button>
@@ -133,7 +120,6 @@ const Users = () => {
                       <th scope="col" className="px-6 py-4"></th>
                     </tr>
                   </thead>
-
                   <tbody>{renderUserRow()}</tbody>
                 </table>
               </div>
@@ -141,23 +127,7 @@ const Users = () => {
           </div>
 
           {/** Paginare */}
-          <div className="mt-4 flex items-center justify-between">
-            <button
-              className="rounded-md bg-blue-500 px-3 py-1 text-white"
-              onClick={goToPreviousPage}
-            >
-              Previous
-            </button>
-            <div>
-              Page {currentPage} of {totalPages}
-            </div>
-            <button
-              className="rounded-md bg-blue-500 px-3 py-1 text-white"
-              onClick={goToNextPage}
-            >
-              Next
-            </button>
-          </div>
+          <Pagination />
         </div>
       ) : (
         <p className="mb-2 block text-sm font-medium text-red-600 dark:text-red-600">
@@ -167,7 +137,7 @@ const Users = () => {
 
       <UserModal
         isOpen={isModalOpen}
-        closeModal={closeModal}
+        closeModal={toggleModal}
         onSubmit={handleModalSubmit}
         editUser={editUser}
       />
