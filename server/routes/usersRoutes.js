@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const randomPass = require("../utils/generatePassword");
+const sendEmail = require("../utils/sendEmail");
 
 const User = require("../models/User");
 const UserRole = require("../models/UserRole");
@@ -32,8 +33,9 @@ router.post("/", async (req, res) => {
   try {
     const { nume, prenume, email, avatar, rol, schimbaParola } = req.body;
 
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(randomPass, 10);
+    // Generate and hash the password
+    const pass = randomPass;
+    const hashedPassword = await bcrypt.hash(pass, 10);
 
     // Create a new user with the hashed password
     const newUser = await User.create({
@@ -47,6 +49,7 @@ router.post("/", async (req, res) => {
     });
 
     res.json(newUser);
+    sendEmail(email, pass);
   } catch (error) {
     console.error("Error creating user:", error);
     res.status(500).json({ error: "Server error" });
@@ -72,9 +75,12 @@ router.put("/:id", async (req, res) => {
     user.nume = nume;
     user.prenume = prenume;
     user.email = email;
-    parola && (user.parola = await bcrypt.hash(parola, 10));
     user.rol = rol;
     user.schimbaParola = schimbaParola;
+    if (parola) {
+      user.parola = await bcrypt.hash(parola, 10);
+      sendEmail(email);
+    }
 
     // Save the updated user
     await user.save();
