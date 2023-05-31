@@ -58,7 +58,6 @@ const Users = () => {
         className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
         key={user.id}
       >
-        <td className="whitespace-nowrap px-6 py-4 font-medium">{user.id}</td>
         <td className="whitespace-nowrap px-6 py-4">
           <div className="flex items-center">
             <img
@@ -105,9 +104,6 @@ const Users = () => {
                 <table className=" min-w-full text-left text-sm font-light">
                   <thead className="border-b font-medium dark:border-neutral-500">
                     <tr>
-                      <th scope="col" className="px-6 py-4">
-                        #
-                      </th>
                       <th scope="col" className="px-6 py-4">
                         Nume
                       </th>
