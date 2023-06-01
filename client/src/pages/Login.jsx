@@ -1,8 +1,11 @@
-import logo from "../assets/spider.svg";
-import validation from "../validations/LoginValidation";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+
+import axios from "axios";
+import logo from "../assets/spider.svg";
+import validation from "../validations/LoginValidation";
+import API_BASE_URL from "../assets/ApiConfig";
 
 const Login = () => {
   const {
@@ -12,7 +15,12 @@ const Login = () => {
   } = useForm({ resolver: yupResolver(validation) });
 
   const submitForm = (data) => {
-    console.log(data);
+    try {
+      const res = axios.post(`${API_BASE_URL}/api/login`, data);
+      console.log(res.status);
+    } catch (error) {
+      console.error("Eroare login:", error);
+    }
   };
 
   return (
@@ -34,7 +42,6 @@ const Login = () => {
             {/** Formular login */}
             <form
               className="space-y-4 md:space-y-6"
-              action="#"
               onSubmit={handleSubmit(submitForm)}
             >
               {/** Adresa de email + validari */}
@@ -63,22 +70,22 @@ const Login = () => {
               {/** Parola + validari */}
               <div>
                 <label
-                  htmlFor="password"
+                  htmlFor="parola"
                   className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Introdu parola contului
                 </label>
                 <input
-                  type="password"
-                  name="password"
-                  id="password"
+                  type="parola"
+                  name="parola"
+                  id="parola"
                   placeholder="••••••••"
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-blue-600 focus:ring-blue-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                  {...register("password")}
+                  {...register("parola")}
                 />
-                {errors.password && (
+                {errors.parola && (
                   <p className="mb-2 block text-sm font-medium text-red-600 dark:text-red-600">
-                    {errors.password.message}
+                    {errors.parola.message}
                   </p>
                 )}
               </div>

@@ -16,6 +16,7 @@ const { addUserRoles } = require("./sql/addUserRoles");
 const usersRoutes = require("./routes/usersRoutes");
 const userRoleRoutes = require("./routes/userRolesRoutes");
 const projectRoutes = require("./routes/projectRoutes");
+const loginRoutes = require("./routes/loginRoutes");
 
 // Sync the database models
 sequelize
@@ -23,6 +24,7 @@ sequelize
   .then(async () => {
     await addUserRoles();
     await addAdmin();
+    app.use("/api/login", loginRoutes);
     app.use("/api/users", usersRoutes);
     app.use("/api/userroles", userRoleRoutes);
     app.use("/api/projects", projectRoutes);

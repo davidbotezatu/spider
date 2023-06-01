@@ -8,7 +8,7 @@ const LoginValidation = yup.object().shape({
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       "Adresa de email este invalidă"
     ),
-  password: yup.string().required("Câmp obligatoriu"),
+  parola: yup.string().required("Câmp obligatoriu"),
 });
 
 export default LoginValidation;
