@@ -24,6 +24,7 @@ sequelize
   .then(async () => {
     await addUserRoles();
     await addAdmin();
+
     app.use("/api/login", loginRoutes);
     app.use("/api/users", usersRoutes);
     app.use("/api/userroles", userRoleRoutes);

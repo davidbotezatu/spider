@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -7,17 +7,21 @@ import logo from "../assets/spider.svg";
 import validation from "../validations/LoginValidation";
 import API_BASE_URL from "../assets/ApiConfig";
 
-const Login = () => {
+const Login = ({ setLogin }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(validation) });
 
-  const submitForm = (data) => {
+  const submitForm = async (data) => {
     try {
-      const res = axios.post(`${API_BASE_URL}/api/login`, data);
-      console.log("Login success");
+      const res = await axios.post(`${API_BASE_URL}/api/login`, data);
+      if (res.status === 200) {
+        setLogin(true);
+      } else {
+        console.error("Login esuat");
+      }
     } catch (error) {
       console.error("Eroare login:", error);
     }
