@@ -17,13 +17,14 @@ const Users = () => {
     // Fetch user data from the server
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/users`, {
+        const response = await axios.get(`${API_BASE_URL}/api/users`, {
           params: {
             page: currentPage,
             limit: 9,
             sortBy: "asc",
           },
         });
+        console.log("Test:", response.data);
         setUsers(response.data.users);
         setTotalPages(response.data.totalPages);
       } catch (error) {

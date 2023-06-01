@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import axios from "axios";
-import { userValidation } from "../validations";
 import API_BASE_URL from "../assets/ApiConfig";
+import { ProjectValidation } from "../validations";
 import { FiX } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 Modal.setAppElement("#root");
 
-const UserModal = ({ isOpen, closeModal, onSubmit, editUser }) => {
-  const [roles, setRoles] = useState([]);
+const UserModal = ({ isOpen, closeModal, onSubmit, editProject }) => {
+  const [users, setUsers] = useState([]);
   const [avatar, setAvatar] = useState("/src/assets/avatar.png");
-  const [mustResetPassword, setMustResetPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   const {
@@ -21,62 +20,57 @@ const UserModal = ({ isOpen, closeModal, onSubmit, editUser }) => {
     reset,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(userValidation),
-    defaultValues: {
-      parola: null,
-    },
+    resolver: yupResolver(ProjectValidation),
   });
 
   const handleAvatarChange = (event) => {
     setAvatar(event.target.value);
   };
 
-  const fetchRoles = async () => {
+  const fetchUsers = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/api/userroles`);
-      const rolesData = response.data;
-      setRoles(rolesData);
+      const response = await axios.get(`${API_BASE_URL}/api/users`);
+      const usersData = response.data;
+
+      setUsers(usersData);
+      console.log("Fetch UsersData:", usersData);
     } catch (error) {
-      console.error("Error fetching roles:", error);
+      console.error("Error fetching users:", error);
     }
   };
 
   useEffect(() => {
-    fetchRoles();
+    fetchUsers();
+    console.log("Users:", users);
 
-    if (editUser) {
+    if (editProject) {
       reset({
-        avatar: editUser.avatar,
-        nume: editUser.nume,
-        prenume: editUser.prenume,
-        email: editUser.email,
-        rol: editUser.rol,
-        parola: null,
+        avatar: editProject.avatar,
+        nume: editProject.nume,
+        descriere: editProject.descriere,
+        responsabil: editProject.responsabil,
       });
-      setMustResetPassword(editUser.schimbaParola);
-      setAvatar(editUser.avatar);
+      setAvatar(editProject.avatar);
     }
-  }, [editUser, reset]);
+  }, [editProject, reset]);
 
   const submitForm = async (data) => {
     setAvatar(data.avatar);
 
     try {
       const formData = {
+        avatar: avatar,
         nume: data.nume,
         prenume: data.prenume,
-        email: data.email,
-        avatar: avatar,
-        parola: data.parola,
+        descriere: data.descriere,
         rol: parseInt(data.rol),
-        schimbaParola: mustResetPassword,
       };
 
       console.log(formData);
 
-      if (editUser) {
+      if (editProject) {
         const response = await axios.put(
-          `${API_BASE_URL}/api/users/${editUser.id}`,
+          `${API_BASE_URL}/api/projects/${editProject.id}`,
           formData
         );
 
@@ -84,36 +78,43 @@ const UserModal = ({ isOpen, closeModal, onSubmit, editUser }) => {
         onSubmit(formData);
         closeModal();
       } else {
-        // Send the POST request to create a new user
+        // Send the POST request to create a new project
         const response = await axios.post(
-          `${API_BASE_URL}/api/users`,
+          `${API_BASE_URL}/api/projects`,
           formData
         );
-        const newUser = response.data;
 
-        // Handle the response or update the UI as needed
-        console.log("New user created:", newUser);
+        // Handle the response or update the UI
+        console.log("Proiect creat:", response.data);
         onSubmit(formData);
         closeModal();
       }
     } catch (error) {
-      console.error("Eroare creare utilizator nou: ", error);
-      setErrorMessage("Adresa de email este utilizată");
+      console.error("Eroare creare proiect nou: ", error);
+      setErrorMessage("Numele este utilizat");
     }
+  };
+
+  const renderUserList = () => {
+    return users.map((user) => (
+      <option key={user.id} value={user.id}>
+        {`${user.nume} ${user.prenume}`}
+      </option>
+    ));
   };
 
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={closeModal}
-      contentLabel={editUser ? "Editare utilizator" : "Adăugare utilizator nou"}
+      contentLabel={editProject ? "Editare proiect" : "Adăugare proiect nou"}
       className="modal fixed inset-0 z-50 flex items-center justify-center"
       overlayClassName="modal-overlay fixed inset-0 bg-black bg-opacity-50 z-40"
     >
       <div className="modal-content z-50 rounded-lg bg-white p-4">
         <div className="mb-4 flex justify-between">
           <h1 className="mr-4 text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-2xl">
-            {editUser ? "Editare utilizator" : "Adăugare utilizator nou"}
+            {editProject ? "Editare proiect" : "Adăugare proiect nou"}
           </h1>
           <button className="text-gray-500" onClick={closeModal}>
             <FiX size={24} />
@@ -153,65 +154,19 @@ const UserModal = ({ isOpen, closeModal, onSubmit, editUser }) => {
                   htmlFor="nume"
                   className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Introdu numele utilizatorului
+                  Introdu numele proiectului sau aplicației
                 </label>
                 <input
                   type="text"
                   name="nume"
                   id="nume"
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-blue-600 focus:ring-blue-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                  placeholder="Popescu"
+                  placeholder="Spider"
                   {...register("nume")}
                 />
                 {errors.nume && (
                   <p className="mb-2 block text-sm font-medium text-red-600 dark:text-red-600">
                     {errors.nume.message}
-                  </p>
-                )}
-              </div>
-
-              {/** Prenume + validari */}
-              <div>
-                <label
-                  htmlFor="prenume"
-                  className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Introdu prenumele utilizatorului
-                </label>
-                <input
-                  type="text"
-                  name="prenume"
-                  id="prenume"
-                  className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-blue-600 focus:ring-blue-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                  placeholder="Ion"
-                  {...register("prenume")}
-                />
-                {errors.prenume && (
-                  <p className="mb-2 block text-sm font-medium text-red-600 dark:text-red-600">
-                    {errors.prenume.message}
-                  </p>
-                )}
-              </div>
-
-              {/** Adresa de email + validari */}
-              <div>
-                <label
-                  htmlFor="email"
-                  className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Introdu adresa de email
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-blue-600 focus:ring-blue-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                  placeholder="nume.prenume@companie.ro"
-                  {...register("email")}
-                />
-                {errors.email && (
-                  <p className="mb-2 block text-sm font-medium text-red-600 dark:text-red-600">
-                    {errors.email.message}
                   </p>
                 )}
                 {errorMessage && (
@@ -221,78 +176,50 @@ const UserModal = ({ isOpen, closeModal, onSubmit, editUser }) => {
                 )}
               </div>
 
-              {/** Parola + validari */}
-              {editUser && (
-                <div>
-                  <label
-                    htmlFor="parola"
-                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Introdu parola contului
-                  </label>
-                  <input
-                    type="parola"
-                    name="parola"
-                    id="parola"
-                    placeholder="••••••••"
-                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-blue-600 focus:ring-blue-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                    {...register("parola")}
-                  />
-                  {errors.parola && (
-                    <p className="mb-2 block text-sm font-medium text-red-600 dark:text-red-600">
-                      {errors.parola.message}
-                    </p>
-                  )}
-                </div>
-              )}
-
-              {/** Rol utilizator */}
+              {/** Descriere + validari */}
               <div>
                 <label
-                  htmlFor="rol"
+                  htmlFor="descriere"
                   className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Selecteaza rolul utilizatorului
+                  Introdu descrierea proiectului
                 </label>
-                <select
-                  name="rol"
-                  id="rol"
+                <input
+                  type="text"
+                  name="descriere"
+                  id="descriere"
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-blue-600 focus:ring-blue-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                  {...register("rol")}
-                >
-                  {roles.map((role) => (
-                    <option key={role.id} value={role.id}>
-                      {role.nume}
-                    </option>
-                  ))}
-                </select>
-                {errors.rol && (
+                  placeholder="Proiect de marketing"
+                  {...register("descriere")}
+                />
+                {errors.descriere && (
                   <p className="mb-2 block text-sm font-medium text-red-600 dark:text-red-600">
-                    {errors.rol.message}
+                    {errors.descriere.message}
                   </p>
                 )}
               </div>
 
-              {/** Reseteaza parola la login */}
-              <div className="flex items-start">
-                <div className="flex h-5 items-center">
-                  <input
-                    id="changePass"
-                    aria-describedby="changePass"
-                    type="checkbox"
-                    checked={mustResetPassword}
-                    onChange={() => setMustResetPassword(!mustResetPassword)}
-                    className="focus:ring-3 h-4 w-4 rounded border border-gray-300 bg-gray-50 focus:ring-blue-300 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                  />
-                </div>
-                <div className="ml-3 text-sm">
-                  <label
-                    htmlFor="changePass"
-                    className="text-gray-500 dark:text-gray-300"
-                  >
-                    Schimbă parola la login
-                  </label>
-                </div>
+              {/** Selectare project lead */}
+              <div>
+                <label
+                  htmlFor="responsabil"
+                  className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Selecteaza persoana responsabilă de proiect
+                </label>
+                <select
+                  name="responsabil"
+                  id="responsabil"
+                  className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-blue-600 focus:ring-blue-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
+                  {...register("responsabil")}
+                >
+                  {renderUserList()}
+                </select>
+                {errors.responsabil && (
+                  <p className="mb-2 block text-sm font-medium text-red-600 dark:text-red-600">
+                    {errors.responsabil.message}
+                  </p>
+                )}
               </div>
 
               {/** Buton submit */}

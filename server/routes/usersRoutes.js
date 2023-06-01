@@ -10,18 +10,28 @@ const UserRole = require("../models/UserRole");
 // Get all users for the Users.jsx (show all users in table)
 router.get("/", async (req, res) => {
   try {
-    const { page, limit, sortBy } = req.query;
+    const { page, limit, sortBy = "asc" } = req.query;
 
-    const users = await User.findAndCountAll({
-      include: [{ model: UserRole, as: "role" }],
-      order: [["nume", sortBy === "desc" ? "DESC" : "ASC"]],
-      offset: (page - 1) * limit,
-      limit: parseInt(limit),
-    });
+    let users;
 
-    const totalPages = Math.ceil(users.count / limit);
+    if (page && limit) {
+      users = await User.findAndCountAll({
+        include: [{ model: UserRole, as: "role" }],
+        order: [["nume", sortBy === "desc" ? "DESC" : "ASC"]],
+        offset: (page - 1) * limit,
+        limit: parseInt(limit),
+      });
 
-    res.json({ users: users.rows, totalPages });
+      const totalPages = Math.ceil(users.count / limit);
+      res.json({ users: users.rows, totalPages });
+    } else {
+      users = await User.findAll({
+        order: [["nume", sortBy === "desc" ? "DESC" : "ASC"]],
+        attributes: ["id", "nume", "prenume"],
+      });
+
+      res.json(users);
+    }
   } catch (error) {
     console.error("Error fetching users:", error);
     res.status(500).json({ error: "Internal server error" });
