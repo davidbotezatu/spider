@@ -24,7 +24,6 @@ const Users = () => {
             sortBy: "asc",
           },
         });
-        console.log("Test:", response.data);
         setUsers(response.data.users);
         setTotalPages(response.data.totalPages);
       } catch (error) {

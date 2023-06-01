@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import axios from "axios";
-import { userValidation } from "../validations";
 import API_BASE_URL from "../assets/ApiConfig";
+import { userValidation } from "../validations";
 import { FiX } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -72,27 +72,22 @@ const UserModal = ({ isOpen, closeModal, onSubmit, editUser }) => {
         schimbaParola: mustResetPassword,
       };
 
-      console.log(formData);
-
       if (editUser) {
         const response = await axios.put(
           `${API_BASE_URL}/api/users/${editUser.id}`,
           formData
         );
 
-        console.log("User updated");
         onSubmit(formData);
         closeModal();
+        console.log("modal closed");
       } else {
         // Send the POST request to create a new user
         const response = await axios.post(
           `${API_BASE_URL}/api/users`,
           formData
         );
-        const newUser = response.data;
 
-        // Handle the response or update the UI as needed
-        console.log("New user created:", newUser);
         onSubmit(formData);
         closeModal();
       }
@@ -100,6 +95,8 @@ const UserModal = ({ isOpen, closeModal, onSubmit, editUser }) => {
       console.error("Eroare creare utilizator nou: ", error);
       setErrorMessage("Adresa de email este utilizată");
     }
+
+    console.log("test");
   };
 
   return (

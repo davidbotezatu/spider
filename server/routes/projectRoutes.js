@@ -20,7 +20,36 @@ router.get("/", async (req, res) => {
     res.json({ projects: projects.rows, totalPages });
   } catch (error) {
     console.log("Proiectele nu pot fi preluate: ", error);
-    res.status(500).json({ error: "Server error" });
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+router.post("/", async (req, res) => {
+  try {
+    const { avatar, nume, descriere, responsabil } = req.body;
+
+    await Project.create({ avatar, nume, descriere, responsabil });
+    res.status(200).json({ message: "Project created succcessfully" });
+  } catch (error) {
+    console.error("Project creation failed:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+router.put("/:id", async (req, res) => {
+  try {
+    const { avatar, nume, descriere, responsabil } = req.body;
+    const project = await Project.findByPk(req.params.id);
+
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    await project.update({ avatar, nume, descriere, responsabil });
+    res.status(200).json({ message: "Project updated succcessfully" });
+  } catch (error) {
+    console.error("Project update failed:", error);
+    res.status(500).json({ message: "Server error" });
   }
 });
 

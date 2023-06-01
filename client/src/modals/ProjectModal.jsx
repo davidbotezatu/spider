@@ -9,9 +9,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 Modal.setAppElement("#root");
 
-const UserModal = ({ isOpen, closeModal, onSubmit, editProject }) => {
+const ProjectModal = ({ isOpen, closeModal, onSubmit, editProject }) => {
   const [users, setUsers] = useState([]);
-  const [avatar, setAvatar] = useState("/src/assets/avatar.png");
+  const [avatar, setAvatar] = useState("/src/assets/proj_icon.png");
   const [errorMessage, setErrorMessage] = useState("");
 
   const {
@@ -31,9 +31,7 @@ const UserModal = ({ isOpen, closeModal, onSubmit, editProject }) => {
     try {
       const response = await axios.get(`${API_BASE_URL}/api/users`);
       const usersData = response.data;
-
       setUsers(usersData);
-      console.log("Fetch UsersData:", usersData);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -41,7 +39,6 @@ const UserModal = ({ isOpen, closeModal, onSubmit, editProject }) => {
 
   useEffect(() => {
     fetchUsers();
-    console.log("Users:", users);
 
     if (editProject) {
       reset({
@@ -63,32 +60,21 @@ const UserModal = ({ isOpen, closeModal, onSubmit, editProject }) => {
         nume: data.nume,
         prenume: data.prenume,
         descriere: data.descriere,
-        rol: parseInt(data.rol),
+        responsabil: parseInt(data.responsabil),
       };
 
-      console.log(formData);
-
       if (editProject) {
-        const response = await axios.put(
+        const res = await axios.put(
           `${API_BASE_URL}/api/projects/${editProject.id}`,
           formData
         );
-
-        console.log("User updated");
-        onSubmit(formData);
-        closeModal();
       } else {
         // Send the POST request to create a new project
-        const response = await axios.post(
-          `${API_BASE_URL}/api/projects`,
-          formData
-        );
-
-        // Handle the response or update the UI
-        console.log("Proiect creat:", response.data);
-        onSubmit(formData);
-        closeModal();
+        const res = await axios.post(`${API_BASE_URL}/api/projects`, formData);
       }
+
+      onSubmit(formData);
+      closeModal();
     } catch (error) {
       console.error("Eroare creare proiect nou: ", error);
       setErrorMessage("Numele este utilizat");
@@ -237,4 +223,4 @@ const UserModal = ({ isOpen, closeModal, onSubmit, editProject }) => {
   );
 };
 
-export default UserModal;
+export default ProjectModal;

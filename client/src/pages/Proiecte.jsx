@@ -70,7 +70,7 @@ const Proiecte = () => {
         </td>
         <td className="whitespace-nowrap px-6 py-4">{project.descriere}</td>
         <td className="whitespace-nowrap px-6 py-4">
-          {project.responsible.nume}
+          {`${project.responsible.nume} ${project.responsible.prenume}`}
         </td>
         <td className="whitespace-nowrap px-6 py-4">
           <button
