@@ -1,16 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-const UserRole = require("../models/UserRole");
+const { getUserRoles } = require("../controllers/userRolesController");
 
-router.get("/", async (req, res) => {
-  try {
-    const roles = await UserRole.findAll();
-    res.json(roles);
-  } catch (error) {
-    console.log("Rolurile nu pot fi preluate: ", error);
-    res.status(500).json({ error: "Server error" });
-  }
-});
+router.route("/").get(getUserRoles);
 
 module.exports = router;

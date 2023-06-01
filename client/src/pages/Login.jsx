@@ -17,7 +17,7 @@ const Login = () => {
   const submitForm = (data) => {
     try {
       const res = axios.post(`${API_BASE_URL}/api/login`, data);
-      console.log(res.status);
+      console.log("Login success");
     } catch (error) {
       console.error("Eroare login:", error);
     }

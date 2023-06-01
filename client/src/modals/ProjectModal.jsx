@@ -30,7 +30,7 @@ const ProjectModal = ({ isOpen, closeModal, onSubmit, editProject }) => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/api/users`);
+      const response = await axios.get(`${API_BASE_URL}/api/users/all`);
       const usersData = response.data;
       setUsers(usersData);
     } catch (error) {
@@ -73,9 +73,8 @@ const ProjectModal = ({ isOpen, closeModal, onSubmit, editProject }) => {
         // Send the POST request to create a new project
         const res = await axios.post(`${API_BASE_URL}/api/projects`, formData);
       }
-
-      onSubmit(formData);
       closeModal();
+      onSubmit(formData);
     } catch (error) {
       console.error("Eroare creare proiect nou: ", error);
       setErrorMessage("Numele este utilizat");

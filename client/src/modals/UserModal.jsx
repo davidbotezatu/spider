@@ -62,7 +62,7 @@ const UserModal = ({ isOpen, closeModal, onSubmit, editUser }) => {
         prenume: "",
         email: "",
         rol: 1,
-        parola: "",
+        parola: null,
       });
     }
   }, [editUser, reset]);
@@ -74,7 +74,7 @@ const UserModal = ({ isOpen, closeModal, onSubmit, editUser }) => {
         prenume: data.prenume,
         email: data.email,
         avatar: avatar,
-        parola: data.parola,
+        parola: data.parola === "" ? null : data.parola,
         rol: parseInt(data.rol),
         schimbaParola: mustResetPassword,
       };
@@ -84,26 +84,19 @@ const UserModal = ({ isOpen, closeModal, onSubmit, editUser }) => {
           `${API_BASE_URL}/api/users/${editUser.id}`,
           formData
         );
-
-        onSubmit(formData);
-        closeModal();
-        console.log("modal closed");
       } else {
         // Send the POST request to create a new user
         const response = await axios.post(
           `${API_BASE_URL}/api/users`,
           formData
         );
-
-        onSubmit(formData);
-        closeModal();
       }
+      closeModal();
+      onSubmit(formData);
     } catch (error) {
       console.error("Eroare creare utilizator nou: ", error);
       setErrorMessage("Adresa de email este utilizată");
     }
-
-    console.log("test");
   };
 
   return (
@@ -206,7 +199,7 @@ const UserModal = ({ isOpen, closeModal, onSubmit, editUser }) => {
                   Introdu adresa de email
                 </label>
                 <input
-                  type="email"
+                  type="text"
                   name="email"
                   id="email"
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-blue-600 focus:ring-blue-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
@@ -235,7 +228,7 @@ const UserModal = ({ isOpen, closeModal, onSubmit, editUser }) => {
                     Introdu parola contului
                   </label>
                   <input
-                    type="parola"
+                    type="password"
                     name="parola"
                     id="parola"
                     placeholder="••••••••"

@@ -7,6 +7,12 @@ import ChangePassword from "./pages/ChangePassword";
 import ResetPassword from "./pages/ResetPassword";
 
 const App = () => {
+  const isLoggedIn = true;
+
+  if (!isLoggedIn) {
+    return <Login />;
+  }
+
   return (
     <div className="flex">
       <Sidebar />
@@ -17,7 +23,6 @@ const App = () => {
           {/* Routes */}
           <Routes>
             <Route path="/" element={<Proiecte />} />
-            <Route path="/login" element={<Login />} />
             <Route path="/changepass" element={<ChangePassword />} />
             <Route path="/resetpass" element={<ResetPassword />} />
             <Route path="/tasks" element={<Tasks />} />
