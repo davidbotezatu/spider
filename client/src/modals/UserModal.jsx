@@ -10,8 +10,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 Modal.setAppElement("#root");
 
 const UserModal = ({ isOpen, closeModal, onSubmit, editUser }) => {
+  const avatarPath = "/src/assets/avatar.png";
   const [roles, setRoles] = useState([]);
-  const [avatar, setAvatar] = useState("/src/assets/avatar.png");
+  const [avatar, setAvatar] = useState(avatarPath);
   const [mustResetPassword, setMustResetPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -46,21 +47,27 @@ const UserModal = ({ isOpen, closeModal, onSubmit, editUser }) => {
 
     if (editUser) {
       reset({
-        avatar: editUser.avatar,
         nume: editUser.nume,
         prenume: editUser.prenume,
         email: editUser.email,
         rol: editUser.rol,
         parola: null,
       });
-      setMustResetPassword(editUser.schimbaParola);
       setAvatar(editUser.avatar);
+    } else {
+      setAvatar(avatarPath);
+      reset({
+        avatar: avatar,
+        nume: "",
+        prenume: "",
+        email: "",
+        rol: 1,
+        parola: "",
+      });
     }
   }, [editUser, reset]);
 
   const submitForm = async (data) => {
-    setAvatar(data.avatar);
-
     try {
       const formData = {
         nume: data.nume,

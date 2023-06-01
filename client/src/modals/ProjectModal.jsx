@@ -10,8 +10,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 Modal.setAppElement("#root");
 
 const ProjectModal = ({ isOpen, closeModal, onSubmit, editProject }) => {
+  const avatarPath = "/src/assets/proj_icon.png";
   const [users, setUsers] = useState([]);
-  const [avatar, setAvatar] = useState("/src/assets/proj_icon.png");
+  const [avatar, setAvatar] = useState(avatarPath);
   const [errorMessage, setErrorMessage] = useState("");
 
   const {
@@ -42,18 +43,18 @@ const ProjectModal = ({ isOpen, closeModal, onSubmit, editProject }) => {
 
     if (editProject) {
       reset({
-        avatar: editProject.avatar,
         nume: editProject.nume,
         descriere: editProject.descriere,
         responsabil: editProject.responsabil,
       });
       setAvatar(editProject.avatar);
+    } else {
+      setAvatar(avatarPath);
+      reset({ avatar: avatar, nume: "", descriere: "", responsabil: 1 });
     }
   }, [editProject, reset]);
 
   const submitForm = async (data) => {
-    setAvatar(data.avatar);
-
     try {
       const formData = {
         avatar: avatar,
