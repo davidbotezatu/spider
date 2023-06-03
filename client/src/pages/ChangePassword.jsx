@@ -1,10 +1,15 @@
 import logo from "../assets/spider.svg";
+import axios from "axios";
+import API_BASE_URL from "../assets/ApiConfig";
 import { passwordValidation } from "../validations";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Link } from "react-router-dom";
+import { useStateContext } from "../contexts/ContextProvider";
 
 const ChangePassword = () => {
+  const { logout } = useStateContext();
+
   const {
     register,
     handleSubmit,
@@ -13,8 +18,32 @@ const ChangePassword = () => {
     resolver: yupResolver(passwordValidation),
   });
 
-  const submitForm = (data) => {
+  const submitForm = async (data) => {
     console.log(data);
+    try {
+      const formData = {
+        email: localStorage.getItem("user_email"),
+        parolaVeche: data.oldPassword,
+        parolaNoua: data.newPassword,
+      };
+
+      const res = await axios.put(
+        `${API_BASE_URL}/api/change-password`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
+
+      if (res.status === 200) {
+        console.log("Password updated");
+        logout();
+      }
+    } catch (error) {
+      console.error("Eroare schimbare: ", error);
+    }
   };
 
   return (
@@ -35,7 +64,6 @@ const ChangePassword = () => {
           {/** Formular schimbare parola */}
           <form
             className="mt-4 space-y-4 md:space-y-5 lg:mt-5"
-            action="#"
             onSubmit={handleSubmit(submitForm)}
           >
             {/** Div parola veche + validare si afisare erori */}

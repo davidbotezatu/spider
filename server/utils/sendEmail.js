@@ -1,15 +1,7 @@
 const nodemailer = require("nodemailer");
 require("dotenv").config;
 
-const sendEmail = (userMail, pass) => {
-  const subjectNewUser = "Utilizator creat";
-  const mailTextNewUser =
-    "Felicitari, noul tau cont a fost creat cu succes. Parola ta este: " + pass;
-
-  const subjectChangePass = "Parola schimbata";
-  const mailTextChangePass =
-    "Felicitari, parola ta a fost schimbata cu succes.";
-
+const sendEmail = (userMail, subiect, textEmail) => {
   const transporter = nodemailer.createTransport({
     service: process.env.EMAIL_SERVICE,
     auth: {
@@ -21,8 +13,8 @@ const sendEmail = (userMail, pass) => {
   const mailOptions = {
     from: process.env.EMAIL_ADDRESS,
     to: userMail,
-    subject: pass ? subjectNewUser : subjectChangePass,
-    text: pass ? mailTextNewUser : mailTextChangePass,
+    subject: subiect,
+    text: textEmail,
   };
 
   transporter.sendMail(mailOptions, function (error) {

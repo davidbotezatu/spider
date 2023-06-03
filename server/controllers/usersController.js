@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const randomPass = require("../utils/generatePassword");
 const sendEmail = require("../utils/sendEmail");
+const { emailUserNou, schimbareParola } = require("../utils/emailTemplates");
 
 const User = require("../models/User");
 const UserRole = require("../models/UserRole");
@@ -63,8 +64,10 @@ exports.addUser = async (req, res) => {
       schimbaParola,
     });
 
+    const emailContent = emailUserNou(pass);
+    sendEmail(email, emailContent.subiect, emailContent.text);
+
     res.json(newUser);
-    sendEmail(email, pass);
   } catch (error) {
     console.error("Error creating user:", error);
     res.status(500).json({ error: "Server error" });
@@ -91,7 +94,7 @@ exports.updateUser = async (req, res) => {
 
     if (parola) {
       user.parola = await bcrypt.hash(parola, 10);
-      sendEmail(email);
+      sendEmail(email, schimbareParola.subiect, schimbareParola.text);
     }
 
     // Save the updated user

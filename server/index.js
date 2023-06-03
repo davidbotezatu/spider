@@ -18,6 +18,7 @@ const userRoleRoutes = require("./routes/userRolesRoutes");
 const projectRoutes = require("./routes/projectRoutes");
 const authRoutes = require("./routes/authRoutes");
 const validateTokenRoutes = require("./routes/validateTokenRoutes");
+const changePassRoutes = require("./routes/changePassRoutes");
 
 // Sync the database models
 sequelize
@@ -31,6 +32,7 @@ sequelize
     app.use("/api/users", usersRoutes);
     app.use("/api/userroles", userRoleRoutes);
     app.use("/api/projects", projectRoutes);
+    app.use("/api/change-password", changePassRoutes);
 
     const PORT = process.env.PORT || 5000;
     app.listen(PORT, () => {
