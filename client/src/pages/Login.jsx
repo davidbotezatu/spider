@@ -1,6 +1,7 @@
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useStateContext } from "../contexts/ContextProvider";
 
 import axios from "axios";
 import logo from "../assets/spider.svg";
@@ -8,6 +9,8 @@ import validation from "../validations/LoginValidation";
 import API_BASE_URL from "../assets/ApiConfig";
 
 const Login = () => {
+  const { login } = useStateContext();
+
   const {
     register,
     handleSubmit,
@@ -19,13 +22,12 @@ const Login = () => {
       const res = await axios.post(`${API_BASE_URL}/api/auth`, data);
       if (res.status === 200) {
         const { accessToken, avatar, email, nume, prenume, rol } = res.data;
-        localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("user_avatar", avatar);
         localStorage.setItem("user_email", email);
         localStorage.setItem("user_nume", nume);
         localStorage.setItem("user_prenume", prenume);
         localStorage.setItem("user_rol", rol);
-        console.log("Login reusit");
+        login(accessToken);
       } else {
         console.error("Login esuat");
       }
@@ -37,13 +39,10 @@ const Login = () => {
   return (
     <section className="bg-gray-100 dark:bg-gray-900">
       <div className="mx-auto flex flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0">
-        <Link
-          to="/"
-          className="mb-6 flex items-center text-2xl font-semibold text-gray-900 dark:text-white"
-        >
+        <span className="mb-6 flex items-center text-2xl font-semibold text-gray-900 dark:text-white">
           <img className="mr-2 h-8 w-8" src={logo} alt="logo" />
           Spider
-        </Link>
+        </span>
         <div className="w-full rounded-lg bg-white shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0 xl:p-0">
           <div className="space-y-4 p-6 sm:p-8 md:space-y-6">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-2xl">
@@ -87,7 +86,7 @@ const Login = () => {
                   Introdu parola contului
                 </label>
                 <input
-                  type="parola"
+                  type="password"
                   name="parola"
                   id="parola"
                   placeholder="••••••••"

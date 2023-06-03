@@ -12,7 +12,7 @@ const Sidebar = () => {
   const location = useLocation();
 
   const links = [
-    { name: "Proiecte", icon: <BiClipboard size={24} />, path: "/" },
+    { name: "Proiecte", icon: <BiClipboard size={24} />, path: "/proiecte" },
     {
       name: "Taskuri",
       icon: <BsBugFill size={24} />,

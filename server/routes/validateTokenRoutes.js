@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const { verifyToken } = require("../utils/authJwt");
-const { getUserRoles } = require("../controllers/userRolesController");
+const { validateToken } = require("../controllers/validateTokenController");
 
-router.route("/").get(verifyToken, getUserRoles);
+router.route("/").post(verifyToken, validateToken);
 
 module.exports = router;

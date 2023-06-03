@@ -6,8 +6,6 @@ const jwt = require("jsonwebtoken");
 const { redisClient } = require("../config/redis.config");
 
 exports.login = async (req, res) => {
-  console.log("Login function invoked");
-
   try {
     const { email, parola } = req.body;
     const user = await User.findOne({

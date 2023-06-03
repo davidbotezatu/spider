@@ -1,7 +1,12 @@
 import { Outlet, Navigate } from "react-router-dom";
+import { useStateContext } from "../contexts/ContextProvider";
 
 const PrivateRoute = () => {
-  return true ? <Outlet /> : <Navigate to="/login" />;
+  const { isValidToken } = useStateContext();
+
+  if (!isValidToken) return <Navigate to="/login" />;
+
+  return <Outlet />;
 };
 
 export default PrivateRoute;
