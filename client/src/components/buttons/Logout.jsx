@@ -1,13 +1,20 @@
 import React from "react";
+import axios from "axios";
+import API_BASE_URL from "../../assets/ApiConfig";
+import { Navigate } from "react-router-dom";
 import { useStateContext } from "../../contexts/ContextProvider";
 
 const Logout = () => {
   const { toggleUserProfile } = useStateContext();
 
-  const handleLogout = () => {
-    toggleUserProfile(); // Close the user profile dropdown
-    console.log("Logout pressed");
-    // Additional logout functionality
+  const handleLogout = async () => {
+    //toggleUserProfile(); // Close the user profile dropdown
+    const res = await axios.get(`${API_BASE_URL}/api/auth`);
+
+    if (res.status === 200) {
+      <Navigate to="/login" />;
+      console.log("Logout success");
+    }
   };
 
   return (

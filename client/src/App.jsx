@@ -7,7 +7,7 @@ import ChangePassword from "./pages/ChangePassword";
 import ResetPassword from "./pages/ResetPassword";
 
 const App = () => {
-  const [login, setLogin] = useState(false);
+  const [login, setLogin] = useState(true);
 
   if (!login) {
     return <Login setLogin={setLogin} />;

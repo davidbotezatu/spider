@@ -6,8 +6,8 @@ const cors = require("cors");
 const sequelize = require("./config/database");
 
 const app = express();
-app.use(bodyParser.json({ limit: "30mb", extended: true }));
-app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({ origin: "http://localhost:5173" }));
 
 const { addAdmin } = require("./sql/addAdmin");
@@ -16,7 +16,7 @@ const { addUserRoles } = require("./sql/addUserRoles");
 const usersRoutes = require("./routes/usersRoutes");
 const userRoleRoutes = require("./routes/userRolesRoutes");
 const projectRoutes = require("./routes/projectRoutes");
-const loginRoutes = require("./routes/loginRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 // Sync the database models
 sequelize
@@ -25,7 +25,7 @@ sequelize
     await addUserRoles();
     await addAdmin();
 
-    app.use("/api/login", loginRoutes);
+    app.use("/api/auth", authRoutes);
     app.use("/api/users", usersRoutes);
     app.use("/api/userroles", userRoleRoutes);
     app.use("/api/projects", projectRoutes);

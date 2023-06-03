@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { verifyToken } = require("../utils/authJwt");
 
 const {
   getAllProjectsWithPagination,
@@ -7,8 +8,11 @@ const {
   updateProject,
 } = require("../controllers/projectController");
 
-router.route("/").get(getAllProjectsWithPagination).post(addNewProject);
+router
+  .route("/")
+  .get(verifyToken, getAllProjectsWithPagination)
+  .post(verifyToken, addNewProject);
 
-router.put("/:id", updateProject);
+router.route("/:id").put(verifyToken, updateProject);
 
 module.exports = router;

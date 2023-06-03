@@ -1,9 +1,8 @@
 const express = require("express");
 const router = express.Router();
+const { login, logout } = require("../controllers/authController");
 const { verifyToken } = require("../utils/authJwt");
 
-const { getUserRoles } = require("../controllers/userRolesController");
-
-router.route("/").get(verifyToken, getUserRoles);
+router.route("/").post(login).get(verifyToken, logout);
 
 module.exports = router;

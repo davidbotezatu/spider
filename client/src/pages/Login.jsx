@@ -7,7 +7,7 @@ import logo from "../assets/spider.svg";
 import validation from "../validations/LoginValidation";
 import API_BASE_URL from "../assets/ApiConfig";
 
-const Login = ({ setLogin }) => {
+const Login = () => {
   const {
     register,
     handleSubmit,
@@ -16,9 +16,9 @@ const Login = ({ setLogin }) => {
 
   const submitForm = async (data) => {
     try {
-      const res = await axios.post(`${API_BASE_URL}/api/login`, data);
+      const res = await axios.post(`${API_BASE_URL}/api/auth`, data);
       if (res.status === 200) {
-        setLogin(true);
+        console.log("Login success");
       } else {
         console.error("Login esuat");
       }
@@ -96,25 +96,6 @@ const Login = ({ setLogin }) => {
 
               {/** RemeberMe + Forgot Password */}
               <div className="flex items-center justify-between">
-                <div className="flex items-start">
-                  <div className="flex h-5 items-center">
-                    <input
-                      id="remember"
-                      aria-describedby="remember"
-                      type="checkbox"
-                      className="focus:ring-3 h-4 w-4 rounded border border-gray-300 bg-gray-50 focus:ring-blue-300 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                    />
-                  </div>
-                  <div className="ml-3 text-sm">
-                    <label
-                      htmlFor="remember"
-                      className="text-gray-500 dark:text-gray-300"
-                    >
-                      Ține-mă minte
-                    </label>
-                  </div>
-                </div>
-
                 {/** Link resetare parola */}
                 <Link
                   to="/resetpass"

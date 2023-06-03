@@ -25,5 +25,9 @@
     "uitat",
     "validare",
     "veche"
-  ]
+  ],
+  "redisXplorer.config": {
+    "profiles": [],
+    "scanLimit": 200
+  }
 }
