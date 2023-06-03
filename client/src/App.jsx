@@ -21,12 +21,12 @@ const App = () => {
           {/* Routes */}
           <Routes>
             {isValidToken || <Route path="/login" element={<Login />} />}
+            <Route path="/resetpass" element={<ResetPassword />} />
             <Route element={<PrivateRoute />}>
               <Route path="*" element={<Proiecte />} />
               <Route path="/" element={<Kanban />} />
               <Route path="/proiecte" element={<Proiecte />} exact />
               <Route path="/changepass" element={<ChangePassword />} />
-              <Route path="/resetpass" element={<ResetPassword />} />
               <Route path="/tasks" element={<Tasks />} />
               <Route path="/kanban" element={<Kanban />} />
               <Route path="/users" element={<Users />} />
