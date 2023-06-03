@@ -32,7 +32,6 @@ exports.login = async (req, res) => {
     );
 
     res.status(200).json({
-      id: user.id,
       nume: user.nume,
       prenume: user.prenume,
       avatar: user.avatar,
@@ -48,7 +47,12 @@ exports.login = async (req, res) => {
 
 exports.logout = async (req, res) => {
   try {
-    const token = req.headers.authorization.split(" ")[1];
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader)
+      return res.status(403).send({ message: "No token provided!" });
+
+    const token = authHeader.split(" ")[1];
     const decodedToken = jwt.decode(token);
     const expTimeLeft = decodedToken.exp - Math.floor(Date.now() / 1000);
 

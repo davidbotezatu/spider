@@ -23,6 +23,9 @@ const Users = () => {
             limit: 9,
             sortBy: "asc",
           },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
         });
         setUsers(response.data.users);
         setTotalPages(response.data.totalPages);

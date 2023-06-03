@@ -30,7 +30,11 @@ const ProjectModal = ({ isOpen, closeModal, onSubmit, editProject }) => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/api/users/all`);
+      const response = await axios.get(`${API_BASE_URL}/api/users/all`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
       const usersData = response.data;
       setUsers(usersData);
     } catch (error) {
@@ -67,11 +71,20 @@ const ProjectModal = ({ isOpen, closeModal, onSubmit, editProject }) => {
       if (editProject) {
         const res = await axios.put(
           `${API_BASE_URL}/api/projects/${editProject.id}`,
-          formData
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            },
+          }
         );
       } else {
         // Send the POST request to create a new project
-        const res = await axios.post(`${API_BASE_URL}/api/projects`, formData);
+        const res = await axios.post(`${API_BASE_URL}/api/projects`, formData, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        });
       }
       closeModal();
       onSubmit(formData);

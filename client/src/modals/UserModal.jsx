@@ -34,7 +34,11 @@ const UserModal = ({ isOpen, closeModal, onSubmit, editUser }) => {
 
   const fetchRoles = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/api/userroles`);
+      const response = await axios.get(`${API_BASE_URL}/api/userroles`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
       const rolesData = response.data;
       setRoles(rolesData);
     } catch (error) {
@@ -82,13 +86,23 @@ const UserModal = ({ isOpen, closeModal, onSubmit, editUser }) => {
       if (editUser) {
         const response = await axios.put(
           `${API_BASE_URL}/api/users/${editUser.id}`,
-          formData
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            },
+          }
         );
       } else {
         // Send the POST request to create a new user
         const response = await axios.post(
           `${API_BASE_URL}/api/users`,
-          formData
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            },
+          }
         );
       }
       closeModal();

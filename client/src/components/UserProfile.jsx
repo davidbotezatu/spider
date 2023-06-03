@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 
-import avatar from "../assets/avatar.png";
 import Logout from "./buttons/Logout";
 import ChangePassword from "./buttons/ChangePassword";
 
@@ -35,21 +34,20 @@ const UserProfile = React.forwardRef((props, ref) => {
       <div className="border-color border-b-1 mt-6 flex items-center gap-5 pb-6">
         <img
           className="h-24 w-24 rounded-full"
-          src={avatar}
-          alt="user-profile"
+          src={localStorage.getItem("user_avatar")}
+          alt="avatar"
         />
         <div>
           <p className="text-xl font-semibold dark:text-gray-200">
-            {" "}
-            Michael Roberts{" "}
+            {`${localStorage.getItem("user_nume")} ${localStorage.getItem(
+              "user_prenume"
+            )}`}
           </p>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            {" "}
-            Administrator{" "}
+            {localStorage.getItem("user_rol")}
           </p>
           <p className="text-sm font-semibold text-gray-500 dark:text-gray-400">
-            {" "}
-            info@shop.com{" "}
+            {localStorage.getItem("user_email")}
           </p>
         </div>
       </div>

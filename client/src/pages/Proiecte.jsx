@@ -23,6 +23,9 @@ const Proiecte = () => {
             limit: 9,
             sortBy: "asc",
           },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
         });
         setProjects(response.data.projects);
         setTotalPages(response.data.totalPages);

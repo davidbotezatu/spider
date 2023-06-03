@@ -7,12 +7,6 @@ import ChangePassword from "./pages/ChangePassword";
 import ResetPassword from "./pages/ResetPassword";
 
 const App = () => {
-  const [login, setLogin] = useState(true);
-
-  if (!login) {
-    return <Login setLogin={setLogin} />;
-  }
-
   return (
     <div className="flex">
       <Sidebar />
@@ -22,10 +16,8 @@ const App = () => {
         <main className="h-full bg-gray-100 p-10">
           {/* Routes */}
           <Routes>
-            <Route
-              path="/"
-              element={login ? <Proiecte /> : <Navigate to="/login" />}
-            />
+            <Route path="/" element={<Proiecte />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/changepass" element={<ChangePassword />} />
             <Route path="/resetpass" element={<ResetPassword />} />
             <Route path="/tasks" element={<Tasks />} />

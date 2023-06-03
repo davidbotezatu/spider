@@ -16,11 +16,17 @@ const Navbar = () => {
           className="flex cursor-pointer items-center gap-2 rounded-lg p-1 hover:bg-slate-200"
           onClick={toggleUserProfile}
         >
-          <img src={avatar} className="h-8 w-8 rounded-full" alt="avatar" />
+          <img
+            src={localStorage.getItem("user_avatar")}
+            className="h-8 w-8 rounded-full"
+            alt="avatar"
+          />
           <p>
             <span className="text-[14px] text-gray-600">Hi, </span>{" "}
             <span className="ml-1 text-[14px] font-bold text-gray-600">
-              Test
+              {`${localStorage.getItem("user_nume")} ${localStorage.getItem(
+                "user_prenume"
+              )}`}
             </span>
           </p>
           <MdKeyboardArrowDown className="text-[14px] text-gray-400" />

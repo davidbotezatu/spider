@@ -18,7 +18,14 @@ const Login = () => {
     try {
       const res = await axios.post(`${API_BASE_URL}/api/auth`, data);
       if (res.status === 200) {
-        console.log("Login success");
+        const { accessToken, avatar, email, nume, prenume, rol } = res.data;
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("user_avatar", avatar);
+        localStorage.setItem("user_email", email);
+        localStorage.setItem("user_nume", nume);
+        localStorage.setItem("user_prenume", prenume);
+        localStorage.setItem("user_rol", rol);
+        console.log("Login reusit");
       } else {
         console.error("Login esuat");
       }
