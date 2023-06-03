@@ -8,10 +8,16 @@ const Logout = () => {
   const { toggleUserProfile } = useStateContext();
 
   const handleLogout = async () => {
-    //toggleUserProfile(); // Close the user profile dropdown
-    const res = await axios.get(`${API_BASE_URL}/api/auth`);
+    toggleUserProfile(); // Close the user profile dropdown
+    const res = await axios.get(`${API_BASE_URL}/api/auth`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    });
 
     if (res.status === 200) {
+      localStorage.clear();
+
       <Navigate to="/login" />;
       console.log("Logout success");
     }
