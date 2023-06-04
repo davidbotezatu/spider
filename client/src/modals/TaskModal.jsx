@@ -80,7 +80,7 @@ const TaskModal = ({ isOpen, closeModal, onSubmit, editTask }) => {
 
       if (editTask) {
         const res = await axios.put(
-          `${API_BASE_URL}/tasks/${editTask.id}`,
+          `${API_BASE_URL}/api/tasks/${editTask.id}`,
           formData,
           {
             headers: {

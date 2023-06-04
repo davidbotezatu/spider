@@ -11,6 +11,7 @@ const Tasks = () => {
   const [editTask, setEditTask] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalSubmitted, setisModalSubmitted] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
 
   const { currentPage, setTotalPages } = useStateContext();
 
@@ -36,7 +37,7 @@ const Tasks = () => {
 
   useEffect(() => {
     fetchTasks();
-  }, [isModalSubmitted, currentPage]);
+  }, [isModalSubmitted, currentPage, isDeleted]);
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -56,8 +57,17 @@ const Tasks = () => {
     toggleModal();
   };
 
-  const handleDeleteTask = () => {
-    console.log("Handle Delete Task");
+  const handleDeleteTask = async (task) => {
+    try {
+      const res = await axios.delete(`${API_BASE_URL}/api/tasks/${task.id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
+      setIsDeleted(!isDeleted);
+    } catch (error) {
+      console.error("Tasks - handleDeleteTask error:", error);
+    }
   };
 
   const renderTaskRow = () => {
@@ -100,7 +110,7 @@ const Tasks = () => {
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
-        <h1 className="flex items-center text-xl font-semibold">Tasks</h1>
+        <h1 className="flex items-center text-xl font-semibold">Backlog</h1>
         <button
           className="rounded-md bg-blue-500 px-3 py-1 text-white"
           onClick={() => handleAddTask()}
