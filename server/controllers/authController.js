@@ -30,6 +30,7 @@ exports.login = async (req, res) => {
     );
 
     res.status(200).json({
+      id: user.id,
       nume: user.nume,
       prenume: user.prenume,
       avatar: user.avatar,

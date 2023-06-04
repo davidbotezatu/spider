@@ -21,7 +21,9 @@ const Login = () => {
     try {
       const res = await axios.post(`${API_BASE_URL}/api/auth`, data);
       if (res.status === 200) {
-        const { accessToken, avatar, email, nume, prenume, rol } = res.data;
+        const { id, accessToken, avatar, email, nume, prenume, rol } = res.data;
+        console.log(res.data);
+        localStorage.setItem("user_id", id);
         localStorage.setItem("user_avatar", avatar);
         localStorage.setItem("user_email", email);
         localStorage.setItem("user_nume", nume);
