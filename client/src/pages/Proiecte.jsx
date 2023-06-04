@@ -39,8 +39,6 @@ const Proiecte = () => {
     setSelectedProjectId(localStorage.getItem("project_id"));
   }, [isModalSubmitted, currentPage]);
 
-  console.log(selectedProjectId);
-
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
