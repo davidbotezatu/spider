@@ -34,7 +34,6 @@ const Proiecte = () => {
   };
 
   useEffect(() => {
-    // Fetch project data from the server
     fetchProjects();
     setSelectedProjectId(localStorage.getItem("project_id"));
   }, [isModalSubmitted, currentPage]);
@@ -91,11 +90,11 @@ const Proiecte = () => {
           </button>
           <button
             className={`rounded-md ${
-              selectedProjectId == project.id ? "bg-gray-700" : "bg-blue-500"
+              selectedProjectId == project.id ? "bg-amber-700" : "bg-blue-500"
             } w-28 px-3 py-1 text-white hover:bg-blue-700`}
             onClick={() => handleSelectProject(project.id)}
           >
-            {selectedProjectId == project.id ? "Selectat" : "Select"}
+            {selectedProjectId == project.id ? "Selectat" : "Selectează"}
           </button>
         </td>
       </tr>

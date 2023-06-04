@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import { MdKeyboardArrowDown } from "react-icons/md";
 
-import avatar from "../assets/avatar.png";
 import { UserProfile } from ".";
 import { useStateContext } from "../contexts/ContextProvider";
 
@@ -22,7 +21,7 @@ const Navbar = () => {
             alt="avatar"
           />
           <p>
-            <span className="text-[14px] text-gray-600">Hi, </span>{" "}
+            <span className="text-[14px] text-gray-600">Salut, </span>{" "}
             <span className="ml-1 text-[14px] font-bold text-gray-600">
               {`${localStorage.getItem("user_nume")} ${localStorage.getItem(
                 "user_prenume"

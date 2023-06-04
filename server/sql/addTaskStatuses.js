@@ -11,9 +11,12 @@ const addTaskStatuses = async () => {
     }
 
     // Create the roles
-    await TaskStatus.create({ status: "Nou" });
-    await TaskStatus.create({ status: "Verificat" });
-    await TaskStatus.create({ status: "Reparat" });
+    await TaskStatus.create({ status: "Nerezolvate" });
+    await TaskStatus.create({ status: "De rezolvat" });
+    await TaskStatus.create({ status: "Rezolvate" });
+    await TaskStatus.create({ status: "Testate" });
+    await TaskStatus.create({ status: "Terminate" });
+    await TaskStatus.create({ status: "Livrate" });
   } catch (error) {
     console.error("Error creating roles:", error);
   }

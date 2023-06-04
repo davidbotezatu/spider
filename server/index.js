@@ -21,6 +21,7 @@ const authRoutes = require("./routes/authRoutes");
 const validateTokenRoutes = require("./routes/validateTokenRoutes");
 const changePassRoutes = require("./routes/changePassRoutes");
 const taskRoutes = require("./routes/taskRoutes");
+const taskStatusRoutes = require("./routes/taskStatusRoutes");
 
 // Sync the database models
 sequelize
@@ -37,6 +38,7 @@ sequelize
     app.use("/api/projects", projectRoutes);
     app.use("/api/change-password", changePassRoutes);
     app.use("/api/tasks", taskRoutes);
+    app.use("/api/task-status", taskStatusRoutes);
 
     const PORT = process.env.PORT || 5000;
     app.listen(PORT, () => {

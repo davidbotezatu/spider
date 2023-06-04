@@ -14,7 +14,7 @@ const Sidebar = () => {
   const links = [
     { name: "Proiecte", icon: <BiClipboard size={24} />, path: "/proiecte" },
     {
-      name: "Taskuri",
+      name: "Backlog",
       icon: <BsBugFill size={24} />,
       gap: true,
       path: "/tasks",
