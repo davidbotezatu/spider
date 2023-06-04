@@ -10,32 +10,36 @@ const Proiecte = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalSubmitted, setIsModalSubmitted] = useState(false);
   const [editProject, setEditProject] = useState(null);
+  const [selectedProjectId, setSelectedProjectId] = useState(null);
 
   const { currentPage, setTotalPages } = useStateContext();
 
+  const fetchProjects = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/api/projects`, {
+        params: {
+          page: currentPage,
+          limit: 9,
+          sortBy: "asc",
+        },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
+      setProjects(response.data.projects);
+      setTotalPages(response.data.totalPages);
+    } catch (error) {
+      console.error("Error fetching projects:", error);
+    }
+  };
+
   useEffect(() => {
     // Fetch project data from the server
-    const fetchProjects = async () => {
-      try {
-        const response = await axios.get(`${API_BASE_URL}/api/projects`, {
-          params: {
-            page: currentPage,
-            limit: 9,
-            sortBy: "asc",
-          },
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        });
-        setProjects(response.data.projects);
-        setTotalPages(response.data.totalPages);
-      } catch (error) {
-        console.error("Error fetching projects:", error);
-      }
-    };
-
     fetchProjects();
+    setSelectedProjectId(localStorage.getItem("project_id"));
   }, [isModalSubmitted, currentPage]);
+
+  console.log(selectedProjectId);
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -53,6 +57,11 @@ const Proiecte = () => {
   const handleAddProject = () => {
     setEditProject(null);
     toggleModal();
+  };
+
+  const handleSelectProject = (projectId) => {
+    setSelectedProjectId(projectId);
+    localStorage.setItem("project_id", projectId);
   };
 
   const renderProjectRow = () => {
@@ -77,10 +86,18 @@ const Proiecte = () => {
         </td>
         <td className="whitespace-nowrap px-6 py-4">
           <button
-            className="rounded-md bg-green-500 px-3 py-1 text-white hover:bg-green-700"
+            className="mr-5 w-28 rounded-md bg-green-500 px-3 py-1 text-white hover:bg-green-700"
             onClick={() => handleEditProject(project)}
           >
             Modifică
+          </button>
+          <button
+            className={`rounded-md ${
+              selectedProjectId == project.id ? "bg-gray-700" : "bg-blue-500"
+            } w-28 px-3 py-1 text-white hover:bg-blue-700`}
+            onClick={() => handleSelectProject(project.id)}
+          >
+            {selectedProjectId == project.id ? "Selectat" : "Select"}
           </button>
         </td>
       </tr>

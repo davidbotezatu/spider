@@ -77,7 +77,7 @@ const Users = () => {
         <td className="whitespace-nowrap px-6 py-4">{user.role.nume}</td>
         <td className="whitespace-nowrap px-6 py-4">
           <button
-            className="rounded-md bg-green-500 px-3 py-1 text-white hover:bg-green-700"
+            className="w-28 rounded-md bg-green-500 px-3 py-1 text-white hover:bg-green-700"
             onClick={() => handleEditUser(user)}
           >
             Modifică
