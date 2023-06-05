@@ -11,15 +11,21 @@ const Sidebar = () => {
   const { openSidebar, setOpenSidebar } = useStateContext();
   const location = useLocation();
 
+  const hasProjectId = !!localStorage.getItem("project_id"); // Check if project_id is present
+
   const links = [
     { name: "Proiecte", icon: <BiClipboard size={24} />, path: "/proiecte" },
-    {
-      name: "Backlog",
-      icon: <BsBugFill size={24} />,
-      gap: true,
-      path: "/tasks",
-    },
-    { name: "Kanban", icon: <BsKanbanFill size={24} />, path: "/kanban" },
+    ...(hasProjectId
+      ? [
+          {
+            name: "Backlog",
+            icon: <BsBugFill size={24} />,
+            gap: true,
+            path: "/tasks",
+          },
+          { name: "Kanban", icon: <BsKanbanFill size={24} />, path: "/kanban" },
+        ]
+      : []),
     {
       name: "Utilizatori",
       icon: <HiUserGroup size={24} />,
@@ -30,13 +36,13 @@ const Sidebar = () => {
 
   return (
     <aside className="z-40">
-      {/** Sidebar */}
+      {/* Sidebar */}
       <div
         className={`${
           openSidebar ? "w-72" : "w-20"
         } relative h-screen bg-gray-200 p-5 pt-8 duration-300`}
       >
-        {/** Buton inchis/deschis sidebar-ul */}
+        {/* Buton inchis/deschis sidebar-ul */}
         <img
           src={navControlImg}
           className={`${
@@ -45,7 +51,7 @@ const Sidebar = () => {
           onClick={() => setOpenSidebar(!openSidebar)}
         />
 
-        {/** Logo */}
+        {/* Logo */}
         <div className="flex items-center gap-x-4">
           <img
             className={`${
@@ -63,7 +69,7 @@ const Sidebar = () => {
           </h1>
         </div>
 
-        {/** Lista de link-uri */}
+        {/* Lista de link-uri */}
         <ul className="pt-6">
           {links.map((link, index) => (
             <NavLink key={index} to={link.path}>

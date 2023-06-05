@@ -59,6 +59,7 @@ const Proiecte = () => {
   const handleSelectProject = (projectId) => {
     setSelectedProjectId(projectId);
     localStorage.setItem("project_id", projectId);
+    window.location.reload();
   };
 
   const renderProjectRow = () => {

@@ -4,28 +4,44 @@ const Task = require("../models/Task");
 const TaskStatus = require("../models/TaskStatus");
 
 exports.getTasks = async (req, res) => {
-  console.log("getTasks");
   try {
     const { page, sortBy, limit, pid } = req.query;
 
     if (!pid) return res.status(204).json({ message: "Lipseste ID proiect" });
 
-    const tasks = await Task.findAndCountAll({
-      where: { idProiect: pid },
-      include: [
-        { model: User, as: "reporterName" },
-        { model: User, as: "assigneeName" },
-        { model: Project, as: "projectName" },
-        { model: TaskStatus, as: "taskStatus" },
-      ],
-      order: [["titlu", sortBy === "desc" ? "DESC" : "ASC"]],
-      offset: (page - 1) * limit,
-      limit: parseInt(limit),
-    });
+    let tasks;
 
-    const totalPages = Math.ceil(tasks.count / limit);
+    if (!page) {
+      tasks = await Task.findAll({
+        where: { idProiect: pid },
+        include: [
+          { model: User, as: "reporterName" },
+          { model: User, as: "assigneeName" },
+          { model: Project, as: "projectName" },
+          { model: TaskStatus, as: "taskStatus" },
+        ],
+        order: [["titlu", "ASC"]],
+      });
 
-    res.json({ tasks: tasks.rows, totalPages });
+      res.json({ tasks });
+    } else {
+      tasks = await Task.findAndCountAll({
+        where: { idProiect: pid },
+        include: [
+          { model: User, as: "reporterName" },
+          { model: User, as: "assigneeName" },
+          { model: Project, as: "projectName" },
+          { model: TaskStatus, as: "taskStatus" },
+        ],
+        order: [["titlu", sortBy === "desc" ? "DESC" : "ASC"]],
+        offset: (page - 1) * limit,
+        limit: parseInt(limit),
+      });
+
+      const totalPages = Math.ceil(tasks.count / limit);
+
+      res.json({ tasks: tasks.rows, totalPages });
+    }
   } catch (error) {
     console.log("Eroare la getTasks: ", error);
     res.status(500).json({ message: "Server error" });
@@ -33,7 +49,6 @@ exports.getTasks = async (req, res) => {
 };
 
 exports.addTask = async (req, res) => {
-  console.log("addTask");
   try {
     const { idProiect, titlu, descriere, reporter, assignee, status } =
       req.body;
@@ -55,7 +70,6 @@ exports.addTask = async (req, res) => {
 };
 
 exports.updateTask = async (req, res) => {
-  console.log("updateTask");
   try {
     console.log("called");
     const { titlu, descriere, assignee, status } = req.body;
@@ -75,7 +89,6 @@ exports.updateTask = async (req, res) => {
 };
 
 exports.deleteTask = async (req, res) => {
-  console.log("deleteTask");
   try {
     const task = await Task.findByPk(req.params.id);
 

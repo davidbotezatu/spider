@@ -12,10 +12,10 @@ const App = () => {
   const { isValidToken } = useStateContext();
 
   return (
-    <div className="flex">
+    <div className="fixed bottom-0 left-0 right-0 top-0 flex">
       {isValidToken && <Sidebar />}
 
-      <div className="flex w-full flex-col">
+      <div className="flex w-full flex-grow flex-col">
         {isValidToken && <Navbar />}
         <main className="h-full bg-gray-100 p-10">
           {/* Routes */}
