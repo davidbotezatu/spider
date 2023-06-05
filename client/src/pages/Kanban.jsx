@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import API_BASE_URL from "../assets/ApiConfig";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { DragDropContext } from "react-beautiful-dnd";
+import { StatusColumn } from "../components";
 
 const Kanban = () => {
   const [tasks, setTasks] = useState([]);
@@ -36,15 +37,9 @@ const Kanban = () => {
     }
   };
 
-  const trash = () => {
-    console.log(tasks);
-    console.log(statuses);
-  };
-
   useEffect(() => {
     fetchTasks();
     fetchStatuses();
-    trash();
   }, []);
 
   const onDragEnd = async (result) => {
@@ -98,42 +93,11 @@ const Kanban = () => {
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="flex flex-grow overflow-x-auto">
           {statuses.map((status) => (
-            <Droppable key={status.id} droppableId={`${status.id}`}>
-              {(provided) => (
-                <div
-                  className="m-2 flex w-60 flex-col overflow-hidden rounded bg-gray-200"
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  <h2 className="sticky top-0 z-10 bg-gray-300 p-2">
-                    {status.status}
-                  </h2>
-                  <div className="flex-grow overflow-y-auto">
-                    {tasks
-                      .filter((task) => task.status === status.id)
-                      .map((task, index) => (
-                        <Draggable
-                          key={task.id}
-                          draggableId={`${task.id}`}
-                          index={index}
-                        >
-                          {(provided) => (
-                            <div
-                              className="m-2 rounded bg-white p-2 shadow-sm"
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              ref={provided.innerRef}
-                            >
-                              {task.titlu}
-                            </div>
-                          )}
-                        </Draggable>
-                      ))}
-                  </div>
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
+            <StatusColumn
+              key={status.id}
+              status={status}
+              tasks={tasks.filter((task) => task.status === status.id)}
+            />
           ))}
         </div>
       </DragDropContext>

@@ -8,6 +8,16 @@ const StateContext = createContext();
 export const ContextProvider = ({ children }) => {
   let navigate = useNavigate();
 
+  //culori pentru kanban board
+  const statusColors = {
+    1: "border-red-500",
+    2: "border-yellow-500",
+    3: "border-green-500",
+    4: "border-amber-500",
+    5: "border-lime-500",
+    6: "border-blue-500",
+  };
+
   //Sidebar
   const [openSidebar, setOpenSidebar] = useState(true);
 
@@ -76,6 +86,7 @@ export const ContextProvider = ({ children }) => {
         login,
         logout,
         isValidToken,
+        statusColors,
       }}
     >
       {children}
