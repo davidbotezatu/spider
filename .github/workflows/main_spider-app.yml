@@ -14,10 +14,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Set up Node.js version
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: '18.x'
 
@@ -31,7 +31,8 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: node-app
-          path: ./server
+          path: .
+          app_location: "/server" # App source code path
 
   deploy:
     runs-on: ubuntu-latest
