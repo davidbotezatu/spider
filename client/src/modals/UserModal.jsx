@@ -6,11 +6,12 @@ import { userValidation } from "../validations";
 import { FiX } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { avatarPath } from "../assets/avatar.png";
 
 Modal.setAppElement("#root");
 
 const UserModal = ({ isOpen, closeModal, onSubmit, editUser }) => {
-  const avatarPath = "/src/assets/avatar.png";
+  //const avatarPath = "/src/assets/avatar.png";
   const [roles, setRoles] = useState([]);
   const [avatar, setAvatar] = useState(avatarPath);
   const [mustResetPassword, setMustResetPassword] = useState(false);
