@@ -6,7 +6,7 @@ import { ProjectValidation } from "../validations";
 import { FiX } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import avatarPath from "../assets/proj_avatar.png";
+import avatarPath from "https://img.icons8.com/nolan/64/test-passed.png";
 
 Modal.setAppElement("#root");
 
