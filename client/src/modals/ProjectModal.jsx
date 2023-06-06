@@ -10,10 +10,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 Modal.setAppElement("#root");
 
 const ProjectModal = ({ isOpen, closeModal, onSubmit, editProject }) => {
+  const avatarPath = "https://img.icons8.com/nolan/64/test-passed.png";
   const [users, setUsers] = useState([]);
   const [avatar, setAvatar] = useState(avatarPath);
   const [errorMessage, setErrorMessage] = useState("");
-  const avatarPath = "https://img.icons8.com/nolan/64/test-passed.png";
 
   const {
     register,
