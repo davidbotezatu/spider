@@ -11,7 +11,6 @@ import avatarPath from "../assets/avatar.png";
 Modal.setAppElement("#root");
 
 const UserModal = ({ isOpen, closeModal, onSubmit, editUser }) => {
-  //const avatarPath = "/src/assets/avatar.png";
   const [roles, setRoles] = useState([]);
   const [avatar, setAvatar] = useState(avatarPath);
   const [mustResetPassword, setMustResetPassword] = useState(false);

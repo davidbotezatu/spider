@@ -6,11 +6,11 @@ import { ProjectValidation } from "../validations";
 import { FiX } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import avatarPath from "/src/assets/proj_icon.png";
 
 Modal.setAppElement("#root");
 
 const ProjectModal = ({ isOpen, closeModal, onSubmit, editProject }) => {
-  const avatarPath = "/src/assets/proj_icon.png";
   const [users, setUsers] = useState([]);
   const [avatar, setAvatar] = useState(avatarPath);
   const [errorMessage, setErrorMessage] = useState("");
@@ -139,7 +139,7 @@ const ProjectModal = ({ isOpen, closeModal, onSubmit, editProject }) => {
                   <div>
                     <input
                       type="text"
-                      placeholder="Enter image URL"
+                      placeholder="Link către imagine"
                       onChange={handleAvatarChange}
                       className="mt-2 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-blue-600 focus:ring-blue-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
                     />
