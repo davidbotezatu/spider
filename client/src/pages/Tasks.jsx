@@ -30,6 +30,7 @@ const Tasks = () => {
       });
       setTasks(res.data.tasks);
       setTotalPages(res.data.totalPages);
+      setisModalSubmitted(false);
     } catch (error) {
       console.error("Eroare fetchTasks:", error);
     }

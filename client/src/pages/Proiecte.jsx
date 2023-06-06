@@ -28,6 +28,7 @@ const Proiecte = () => {
       });
       setProjects(response.data.projects);
       setTotalPages(response.data.totalPages);
+      setIsModalSubmitted(false);
     } catch (error) {
       console.error("Error fetching projects:", error);
     }
