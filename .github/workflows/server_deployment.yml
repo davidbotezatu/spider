@@ -1,9 +1,6 @@
 name: server_deploy_status
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 jobs:
