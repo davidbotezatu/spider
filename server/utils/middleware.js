@@ -4,10 +4,6 @@ const { redisClient } = require("../config/redis.config");
 exports.verifyToken = async (req, res, next) => {
   const authHeader = req.headers.authorization;
 
-  if (req.user.schimbaParola) {
-    return res.status(403).json({ message: "Parola trebuie schimbata." });
-  }
-
   if (!authHeader) return res.status(403).send({ message: "Forbidden" });
 
   const token = authHeader.split(" ")[1];
@@ -22,4 +18,12 @@ exports.verifyToken = async (req, res, next) => {
     req.user = payload;
     next();
   });
+};
+
+exports.isRequiredPassChange = (req, res, next) => {
+  if (req.user.schimbaParola) {
+    return res.status(403).json({ message: "Parola trebuie schimbata." });
+  }
+
+  next();
 };

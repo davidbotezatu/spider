@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import API_BASE_URL from "../assets/ApiConfig";
+import HandleToast from "../utils/HandleToast";
 import { UserModal } from "../modals";
 import { Pagination } from "../components";
 import { useStateContext } from "../contexts/ContextProvider";
+import { useNavigate } from "react-router-dom";
 
 const Users = () => {
+  const nav = useNavigate();
   const [users, setUsers] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalSubmitted, setIsModalSubmitted] = useState(false);
@@ -30,6 +33,10 @@ const Users = () => {
         setTotalPages(response.data.totalPages);
       } catch (error) {
         console.error("Error fetching users:", error);
+        if (error.response && error.response.status === 403) {
+          nav("/changepass");
+          HandleToast("info", "Parola trebuie schimbată");
+        }
       }
     };
 

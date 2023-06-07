@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { verifyToken } = require("../utils/authJwt");
+const { verifyToken, isRequiredPassChange } = require("../utils/middleware");
 
 const {
   getUsers,
@@ -11,7 +11,7 @@ const {
 
 router
   .route("/")
-  .get(verifyToken, getAllUsersWithPagination)
+  .get(verifyToken, isRequiredPassChange, getAllUsersWithPagination)
   .post(verifyToken, addUser);
 router.route("/all").get(verifyToken, getUsers);
 router.route("/:id").put(verifyToken, updateUser);

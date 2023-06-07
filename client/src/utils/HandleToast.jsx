@@ -14,7 +14,9 @@ const HandleToast = (type, msg) => {
 
   if (type === "success") {
     toast.success(msg, { ...props });
-  } else {
+  } else if (type === "info") {
+    toast.info(msg, { ...props });
+  } else if (type === "fail") {
     toast.error(msg, { ...props });
   }
 };

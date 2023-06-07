@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import API_BASE_URL from "../assets/ApiConfig";
+import HandleToast from "../utils/HandleToast";
 import { ProjectModal } from "../modals";
 import { Pagination } from "../components";
 import { useStateContext } from "../contexts/ContextProvider";
+import { useNavigate } from "react-router-dom";
 
 const Proiecte = () => {
+  let nav = useNavigate();
   const [projects, setProjects] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalSubmitted, setIsModalSubmitted] = useState(false);
@@ -31,6 +34,10 @@ const Proiecte = () => {
       setIsModalSubmitted(false);
     } catch (error) {
       console.error("Error fetching projects:", error);
+      if (error.response && error.response.status === 403) {
+        nav("/changepass");
+        HandleToast("info", "Parola trebuie schimbată");
+      }
     }
   };
 

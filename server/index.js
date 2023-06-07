@@ -8,7 +8,7 @@ const sequelize = require("./config/database");
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-//app.use(cors({ origin: "https://nice-plant-08c8cad03.3.azurestaticapps.net" }));
+//app.use(cors({ origin: "http://localhost:5173" }));
 
 const { addAdmin } = require("./sql/addAdmin");
 const { addUserRoles } = require("./sql/addUserRoles");
