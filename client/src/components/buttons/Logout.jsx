@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import API_BASE_URL from "../../assets/ApiConfig";
+import HandleToast from "../../utils/HandleToast";
 import { useStateContext } from "../../contexts/ContextProvider";
 
 const Logout = () => {
@@ -15,8 +16,8 @@ const Logout = () => {
     });
 
     if (res.status === 200) {
+      HandleToast("success", "Utilizator delogat!");
       logout();
-      console.log("Logout success");
     }
   };
 

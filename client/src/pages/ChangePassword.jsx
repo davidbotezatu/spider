@@ -1,6 +1,7 @@
 import logo from "../assets/spider.svg";
 import axios from "axios";
 import API_BASE_URL from "../assets/ApiConfig";
+import HandleToast from "../utils/HandleToast";
 import { passwordValidation } from "../validations";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -19,7 +20,6 @@ const ChangePassword = () => {
   });
 
   const submitForm = async (data) => {
-    console.log(data);
     try {
       const formData = {
         email: localStorage.getItem("user_email"),
@@ -38,11 +38,12 @@ const ChangePassword = () => {
       );
 
       if (res.status === 200) {
-        console.log("Password updated");
+        HandleToast("success", "Parola a fost schimbată cu succes!");
         logout();
       }
     } catch (error) {
       console.error("Eroare schimbare: ", error);
+      HandleToast("fail", "Eroare schimbare parolă!");
     }
   };
 

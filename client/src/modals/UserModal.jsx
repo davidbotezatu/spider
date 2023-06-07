@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import axios from "axios";
 import API_BASE_URL from "../assets/ApiConfig";
+import HandleToast from "../utils/HandleToast";
+import avatarPath from "../assets/avatar.png";
 import { userValidation } from "../validations";
 import { FiX } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import avatarPath from "../assets/avatar.png";
 
 Modal.setAppElement("#root");
 
@@ -84,7 +85,7 @@ const UserModal = ({ isOpen, closeModal, onSubmit, editUser }) => {
       };
 
       if (editUser) {
-        const response = await axios.put(
+        const res = await axios.put(
           `${API_BASE_URL}/api/users/${editUser.id}`,
           formData,
           {
@@ -93,17 +94,18 @@ const UserModal = ({ isOpen, closeModal, onSubmit, editUser }) => {
             },
           }
         );
+        if (res.status === 200) {
+          HandleToast("success", "Editare utilizator efectuată cu succes!");
+        }
       } else {
-        // Send the POST request to create a new user
-        const response = await axios.post(
-          `${API_BASE_URL}/api/users`,
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-            },
-          }
-        );
+        const res = await axios.post(`${API_BASE_URL}/api/users`, formData, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        });
+        if (res.status === 200) {
+          HandleToast("success", "Adăugare utilizator efectuată cu succes!");
+        }
       }
       closeModal();
       onSubmit(formData);

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import axios from "axios";
 import API_BASE_URL from "../assets/ApiConfig";
+import HandleToast from "../utils/HandleToast";
 import { ProjectValidation } from "../validations";
 import { FiX } from "react-icons/fi";
 import { useForm } from "react-hook-form";
@@ -78,13 +79,18 @@ const ProjectModal = ({ isOpen, closeModal, onSubmit, editProject }) => {
             },
           }
         );
+        if (res.status === 200) {
+          HandleToast("success", "Editare proiect efectuată cu succes!");
+        }
       } else {
-        // Send the POST request to create a new project
         const res = await axios.post(`${API_BASE_URL}/api/projects`, formData, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
         });
+        if (res.status === 200) {
+          HandleToast("success", "Adăugare proiect efectuată cu succes!");
+        }
       }
       closeModal();
       onSubmit(formData);
