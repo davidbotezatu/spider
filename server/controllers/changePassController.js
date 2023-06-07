@@ -22,7 +22,7 @@ exports.changePassword = async (req, res) => {
 
     const newPass = await bcrypt.hash(parolaNoua, 10);
 
-    await user.update({ parola: newPass });
+    await user.update({ parola: newPass, schimbaParola: false });
 
     sendEmail(email, schimbareParola.subiect, schimbareParola.text);
     logout(req, res);

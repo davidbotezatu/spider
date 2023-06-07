@@ -24,7 +24,11 @@ exports.login = async (req, res) => {
     }
 
     var accessToken = jwt.sign(
-      { id: user.email, rol: user.role.nume },
+      {
+        id: user.email,
+        rol: user.role.nume,
+        schimbaParola: user.schimbaParola,
+      },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "8h" }
     );
