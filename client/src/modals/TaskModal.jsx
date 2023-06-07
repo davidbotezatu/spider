@@ -90,7 +90,7 @@ const TaskModal = ({ isOpen, closeModal, onSubmit, editTask }) => {
           }
         );
         if (res.status === 200) {
-          HandleToast(success, "Modificare task efectuată cu succes!");
+          HandleToast("success", "Modificare task efectuată cu succes!");
         }
       } else {
         const res = await axios.post(`${API_BASE_URL}/api/tasks`, formData, {
@@ -100,14 +100,14 @@ const TaskModal = ({ isOpen, closeModal, onSubmit, editTask }) => {
         });
 
         if (res.status === 200) {
-          HandleToast(success, "Adăugare task efectuată cu succes!");
+          HandleToast("success", "Adăugare task efectuată cu succes!");
         }
       }
       closeModal();
       onSubmit(formData);
     } catch (error) {
       console.error("Eroare TaskModel - submitForm():", error);
-      HandleToast(fail, `Eroare! ${error}`);
+      HandleToast("fail", `Eroare! ${error}`);
     }
   };
 

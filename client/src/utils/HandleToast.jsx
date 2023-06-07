@@ -12,7 +12,7 @@ const HandleToast = (type, msg) => {
     theme: "colored",
   };
 
-  if (type === success) {
+  if (type === "success") {
     toast.success(msg, { ...props });
   } else {
     toast.error(msg, { ...props });

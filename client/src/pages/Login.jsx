@@ -33,7 +33,7 @@ const Login = () => {
     } catch (error) {
       console.error("Eroare login:", error);
       if (error.response.status === 401) {
-        HandleToast(fail, "Adresă de email sau parolă incorectă");
+        HandleToast("fail", "Adresă de email sau parolă incorectă");
       }
     }
   };
