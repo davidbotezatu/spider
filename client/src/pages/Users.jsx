@@ -54,6 +54,11 @@ const Users = () => {
     toggleModal();
   };
 
+  let isAdmin = false;
+  if (localStorage.getItem("user_rol") === "Administrator") {
+    isAdmin = true;
+  }
+
   const renderUserRow = () => {
     return users.map((user) => (
       <tr
@@ -75,21 +80,18 @@ const Users = () => {
         <td className="whitespace-nowrap px-6 py-4">{user.email}</td>
         <td className="whitespace-nowrap px-6 py-4">{user.role.nume}</td>
         <td className="whitespace-nowrap px-6 py-4">
-          <button
-            className="w-28 rounded-md bg-green-500 px-3 py-1 text-white hover:bg-green-700"
-            onClick={() => handleEditUser(user)}
-          >
-            Modifică
-          </button>
+          {isAdmin && (
+            <button
+              className="w-28 rounded-md bg-green-500 px-3 py-1 text-white hover:bg-green-700"
+              onClick={() => handleEditUser(user)}
+            >
+              Modifică
+            </button>
+          )}
         </td>
       </tr>
     ));
   };
-
-  let isAdmin = false;
-  if (localStorage.getItem("user_rol") === "Administrator") {
-    isAdmin = true;
-  }
 
   return (
     <div>

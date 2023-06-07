@@ -63,6 +63,11 @@ const Proiecte = () => {
     window.location.reload();
   };
 
+  let isAdmin = false;
+  if (localStorage.getItem("user_rol") === "Administrator") {
+    isAdmin = true;
+  }
+
   const renderProjectRow = () => {
     return projects.map((project) => (
       <tr
@@ -84,12 +89,14 @@ const Proiecte = () => {
           {`${project.responsible.nume} ${project.responsible.prenume}`}
         </td>
         <td className="whitespace-nowrap px-6 py-4">
-          <button
-            className="mr-5 w-28 rounded-md bg-green-500 px-3 py-1 text-white hover:bg-green-700"
-            onClick={() => handleEditProject(project)}
-          >
-            Modifică
-          </button>
+          {isAdmin && (
+            <button
+              className="mr-5 w-28 rounded-md bg-green-500 px-3 py-1 text-white hover:bg-green-700"
+              onClick={() => handleEditProject(project)}
+            >
+              Modifică
+            </button>
+          )}
           <button
             className={`rounded-md ${
               selectedProjectId == project.id ? "bg-amber-700" : "bg-blue-500"
@@ -102,11 +109,6 @@ const Proiecte = () => {
       </tr>
     ));
   };
-
-  let isAdmin = false;
-  if (localStorage.getItem("user_rol") === "Administrator") {
-    isAdmin = true;
-  }
 
   return (
     <div>
