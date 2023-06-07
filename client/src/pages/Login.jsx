@@ -32,7 +32,10 @@ const Login = () => {
         localStorage.setItem("user_prenume", prenume);
         localStorage.setItem("user_rol", rol);
         login(accessToken);
-      } else {
+      }
+    } catch (error) {
+      console.error("Eroare login:", error);
+      if (error.response.status === 401) {
         toast.error("Adresă de email sau parolă incorectă", {
           position: "bottom-right",
           autoClose: 3000,
@@ -44,8 +47,6 @@ const Login = () => {
           theme: "colored",
         });
       }
-    } catch (error) {
-      console.error("Eroare login:", error);
     }
   };
 
