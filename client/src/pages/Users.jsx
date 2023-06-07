@@ -86,7 +86,7 @@ const Users = () => {
     ));
   };
 
-  const isAdmin = false;
+  let isAdmin = false;
   if (localStorage.getItem("user_rol") === "Administrator") {
     isAdmin = true;
   }
