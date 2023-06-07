@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import axios from "axios";
 import API_BASE_URL from "../assets/ApiConfig";
+import HandleToast from "../utils/HandleToast";
 import { FiX } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -88,17 +89,25 @@ const TaskModal = ({ isOpen, closeModal, onSubmit, editTask }) => {
             },
           }
         );
+        if (res.status === 200) {
+          HandleToast(success, "Modificare task efectuată cu succes!");
+        }
       } else {
         const res = await axios.post(`${API_BASE_URL}/api/tasks`, formData, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
         });
+
+        if (res.status === 200) {
+          HandleToast(success, "Adăugare task efectuată cu succes!");
+        }
       }
       closeModal();
       onSubmit(formData);
     } catch (error) {
       console.error("Eroare TaskModel - submitForm():", error);
+      HandleToast(fail, `Eroare! ${error}`);
     }
   };
 
