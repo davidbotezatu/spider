@@ -16,25 +16,36 @@ exports.getAllProjectsWithPagination = async (req, res) => {
 
     res.json({ projects: projects.rows, totalPages });
   } catch (error) {
-    console.log("Proiectele nu pot fi preluate: ", error);
+    console.log(
+      "Eroare projectController - getAllProjectsWithPagination: ",
+      error
+    );
     res.status(500).json({ message: "Server error" });
   }
 };
 
 exports.addNewProject = async (req, res) => {
   try {
+    if (req.user.role !== "Administrator") {
+      return res.status(403).json({ message: "Permisiuni insuficiente." });
+    }
+
     const { avatar, nume, descriere, responsabil } = req.body;
 
     await Project.create({ avatar, nume, descriere, responsabil });
-    res.status(200).json({ message: "Project created succcessfully" });
+    res.status(200).json({ message: "Proiect creat cu succes" });
   } catch (error) {
-    console.error("Project creation failed:", error);
+    console.error("Eroare projectController - addNewProject:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
 
 exports.updateProject = async (req, res) => {
   try {
+    if (req.user.role !== "Administrator") {
+      return res.status(403).json({ message: "Permisiuni insuficiente." });
+    }
+
     const { avatar, nume, descriere, responsabil } = req.body;
     const project = await Project.findByPk(req.params.id);
 
@@ -43,9 +54,9 @@ exports.updateProject = async (req, res) => {
     }
 
     await project.update({ avatar, nume, descriere, responsabil });
-    res.status(200).json({ message: "Project updated succcessfully" });
+    res.status(200).json({ message: "Proiect modificat cu succes" });
   } catch (error) {
-    console.error("Project update failed:", error);
+    console.error("Eroare projectController - updateProject:", error);
     res.status(500).json({ message: "Server error" });
   }
 };

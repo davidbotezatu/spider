@@ -14,9 +14,9 @@ exports.verifyToken = async (req, res, next) => {
   if (await redisClient.exists(token))
     return res.status(401).send({ message: "Unauthorized!" });
 
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {
     if (err) return res.status(401).send({ message: "Unauthorized!" });
-    req.userId = user.id;
+    req.user = payload;
     next();
   });
 };
