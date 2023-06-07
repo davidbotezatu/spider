@@ -2,11 +2,12 @@ import React from "react";
 import Login from "./pages/Login";
 import ChangePassword from "./pages/ChangePassword";
 import ResetPassword from "./pages/ResetPassword";
+import PrivateRoute from "./utils/PrivateRoute";
 import { Routes, Route } from "react-router-dom";
 import { Proiecte, Tasks, Kanban, Users } from "./pages";
 import { Navbar, Sidebar } from "./components";
 import { useStateContext } from "./contexts/ContextProvider";
-import PrivateRoute from "./utils/PrivateRoute";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
   const { isValidToken } = useStateContext();
@@ -34,6 +35,18 @@ const App = () => {
           </Routes>
         </main>
       </div>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </div>
   );
 };

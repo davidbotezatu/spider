@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useStateContext } from "../contexts/ContextProvider";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 import axios from "axios";
 import logo from "../assets/spider.svg";
@@ -10,6 +12,7 @@ import API_BASE_URL from "../assets/ApiConfig";
 
 const Login = () => {
   const { login } = useStateContext();
+  const [errorMsg, setErrorMsg] = useState(null);
 
   const {
     register,
@@ -30,7 +33,16 @@ const Login = () => {
         localStorage.setItem("user_rol", rol);
         login(accessToken);
       } else {
-        console.error("Login esuat");
+        toast.error("Adresă de email sau parolă incorectă", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       }
     } catch (error) {
       console.error("Eroare login:", error);
