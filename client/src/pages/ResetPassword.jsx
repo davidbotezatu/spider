@@ -1,5 +1,8 @@
 import logo from "../assets/spider.svg";
-import { userValidation } from "../validations";
+import axios from "axios";
+import API_BASE_URL from "../assets/ApiConfig";
+import HandleToast from "../utils/HandleToast";
+import { ResetPassValidation } from "../validations";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Link } from "react-router-dom";
@@ -9,10 +12,38 @@ const ResetPassword = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(userValidation) });
+  } = useForm({ resolver: yupResolver(ResetPassValidation) });
 
-  const submitForm = (data) => {
-    console.log(data);
+  const submitForm = async (data) => {
+    try {
+      const res = await axios.post(`${API_BASE_URL}/api/reset-password`, data);
+      if (res.status) {
+        HandleToast("success", "Editare proiect efectuată cu succes!");
+      }
+    } catch (error) {
+      console.log("Reset Password error:", err);
+      HandleToast(
+        "info",
+        "Vei primi un email cu un link pentru resetare, dacă adresa ta de email există în baza de date."
+      );
+    }
+
+    /** axios
+      .post(`${API_BASE_URL}/api/reset-password`, data)
+      .then((res) => {
+        if (res)
+          HandleToast(
+            "info",
+            "Vei primi un email cu un link pentru resetare, dacă adresa ta de email există în baza de date."
+          );
+      })
+      .catch((err) => {
+        console.log("Reset Password error:", err);
+        HandleToast(
+          "info",
+          "Vei primi un email cu un link pentru resetare, dacă adresa ta de email există în baza de date."
+        );
+      }); */
   };
 
   return (
@@ -33,7 +64,6 @@ const ResetPassword = () => {
           {/** Formular resetare parola */}
           <form
             className="mt-4 space-y-4 md:space-y-5 lg:mt-5"
-            action="#"
             onSubmit={handleSubmit(submitForm)}
           >
             {/** Adresa de email + validari */}

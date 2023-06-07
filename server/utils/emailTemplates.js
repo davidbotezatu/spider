@@ -9,3 +9,14 @@ exports.schimbareParola = {
   subiect: "Parola schimbata",
   text: "Felicitari, parola ta a fost schimbata cu succes.",
 };
+
+exports.resetareParola = (token) => {
+  return {
+    subiect: "Resetare parola pentru aplicatia Spider",
+    text: `Bună,
+    \nAi cerut resetarea parolei pentru contul tău. Te rugăm să dai click pe link-ul următor pentru a-ți reseta parola:
+    \nhttps://spider-app.azurewebsites.net/reset/${token}
+    \nÎn cazul în care nu ai cerut tu resetarea parolei, te rugăm să ignori acest mesaj.
+    \nO zi bună în continuare!`,
+  };
+};

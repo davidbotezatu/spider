@@ -1,10 +1,16 @@
 import React from "react";
-import Login from "./pages/Login";
-import ChangePassword from "./pages/ChangePassword";
-import ResetPassword from "./pages/ResetPassword";
 import PrivateRoute from "./utils/PrivateRoute";
 import { Routes, Route } from "react-router-dom";
-import { Proiecte, Tasks, Kanban, Users } from "./pages";
+import {
+  Proiecte,
+  Tasks,
+  Kanban,
+  Users,
+  ChangePassUponReset,
+  ChangePassword,
+  ResetPassword,
+  Login,
+} from "./pages";
 import { Navbar, Sidebar } from "./components";
 import { useStateContext } from "./contexts/ContextProvider";
 import { ToastContainer } from "react-toastify";
@@ -24,6 +30,7 @@ const App = () => {
           <Routes>
             {isValidToken || <Route path="/login" element={<Login />} />}
             <Route path="/resetpass" element={<ResetPassword />} />
+            <Route path="/reset/:token" element={<ChangePassUponReset />} />
             <Route element={<PrivateRoute />}>
               <Route path="*" element={<Proiecte />} />
               <Route path="/" element={<Kanban />} />
@@ -38,7 +45,7 @@ const App = () => {
       </div>
       <ToastContainer
         position="bottom-right"
-        autoClose={3000}
+        autoClose={5000}
         hideProgressBar={false}
         newestOnTop
         closeOnClick

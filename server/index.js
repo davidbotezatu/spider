@@ -2,7 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const bodyParser = require("body-parser");
-const cors = require("cors");
+//const cors = require("cors");
 const sequelize = require("./config/database");
 
 const app = express();
@@ -22,6 +22,7 @@ const validateTokenRoutes = require("./routes/validateTokenRoutes");
 const changePassRoutes = require("./routes/changePassRoutes");
 const taskRoutes = require("./routes/taskRoutes");
 const taskStatusRoutes = require("./routes/taskStatusRoutes");
+const resetPassRoutes = require("./routes/resetPassRoutes");
 
 // Sync the database models
 sequelize
@@ -39,6 +40,7 @@ sequelize
     app.use("/api/change-password", changePassRoutes);
     app.use("/api/tasks", taskRoutes);
     app.use("/api/task-status", taskStatusRoutes);
+    app.use("/api/reset-password", resetPassRoutes);
 
     const PORT = process.env.PORT || 5000;
     app.listen(PORT, () => {
