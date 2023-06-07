@@ -8,6 +8,7 @@ import { Proiecte, Tasks, Kanban, Users } from "./pages";
 import { Navbar, Sidebar } from "./components";
 import { useStateContext } from "./contexts/ContextProvider";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   const { isValidToken } = useStateContext();
