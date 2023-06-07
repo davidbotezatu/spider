@@ -14,7 +14,6 @@ const Users = () => {
   const { currentPage, setTotalPages } = useStateContext();
 
   useEffect(() => {
-    // Fetch user data from the server
     const fetchUsers = async () => {
       try {
         const response = await axios.get(`${API_BASE_URL}/api/users`, {
@@ -87,16 +86,23 @@ const Users = () => {
     ));
   };
 
+  const isAdmin = false;
+  if (localStorage.getItem("user_rol") === "Administrator") {
+    isAdmin = true;
+  }
+
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
         <h1 className="flex items-center text-xl font-semibold">Utilizatori</h1>
-        <button
-          className="rounded-md bg-blue-500 px-3 py-1 text-white"
-          onClick={() => handleAddUser()}
-        >
-          Adăugare
-        </button>
+        {isAdmin && (
+          <button
+            className="rounded-md bg-blue-500 px-3 py-1 text-white"
+            onClick={() => handleAddUser()}
+          >
+            Adăugare
+          </button>
+        )}
       </div>
 
       {users.length > 0 ? (

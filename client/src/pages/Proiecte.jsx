@@ -103,16 +103,23 @@ const Proiecte = () => {
     ));
   };
 
+  const isAdmin = false;
+  if (localStorage.getItem("user_rol") === "Administrator") {
+    isAdmin = true;
+  }
+
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
         <h1 className="flex items-center text-xl font-semibold">Proiecte</h1>
-        <button
-          className="rounded-md bg-blue-500 px-3 py-1 text-white"
-          onClick={() => handleAddProject()}
-        >
-          Adăugare
-        </button>
+        {isAdmin && (
+          <button
+            className="rounded-md bg-blue-500 px-3 py-1 text-white"
+            onClick={() => handleAddProject()}
+          >
+            Adăugare
+          </button>
+        )}
       </div>
 
       {projects.length > 0 ? (
