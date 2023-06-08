@@ -1,7 +1,6 @@
 import { toast } from "react-toastify";
 
 const HandleToast = (type, msg) => {
-  console.log("called");
   const props = {
     position: "bottom-right",
     autoClose: 5000,

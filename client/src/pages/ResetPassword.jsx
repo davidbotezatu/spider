@@ -21,7 +21,7 @@ const ResetPassword = () => {
         HandleToast("success", "Editare proiect efectuată cu succes!");
       }
     } catch (error) {
-      console.log("Reset Password error:", err);
+      console.log("Reset Password error:", error);
       HandleToast(
         "info",
         "Vei primi un email cu un link pentru resetare, dacă adresa ta de email există în baza de date."

@@ -9,7 +9,7 @@ const { redisClient } = require("../config/redis.config");
 exports.resetPassReq = async (req, res) => {
   try {
     const { email } = req.body;
-    const user = User.findOne({ where: { email } });
+    const user = await User.findOne({ where: { email } });
 
     if (!user)
       return res.status(404).json({ message: "Emailul nu a fost gasit" });
