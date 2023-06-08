@@ -12,7 +12,7 @@ exports.resetPassReq = async (req, res) => {
     const user = await User.findOne({ where: { email } });
 
     if (!user)
-      return res.status(404).json({ message: "Emailul nu a fost gasit" });
+      return res.status(404).json({ message: "Utilizatorul nu a fost gasit" });
 
     var resetToken = jwt.sign({ email }, process.env.RESET_PASS_SECRET, {
       expiresIn: "2h",
@@ -20,6 +20,7 @@ exports.resetPassReq = async (req, res) => {
 
     const em = resetareParola(resetToken);
     sendEmail(email, em.subiect, em.text);
+    res.status(200).json({ message: "Email trimis" });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }

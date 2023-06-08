@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
-require("dotenv").config;
+require("dotenv").config();
 
-const sendEmail = (userMail, subiect, textEmail) => {
+const sendEmail = async (userMail, subiect, textEmail) => {
   const transporter = nodemailer.createTransport({
     service: process.env.EMAIL_SERVICE,
     auth: {
@@ -17,9 +17,11 @@ const sendEmail = (userMail, subiect, textEmail) => {
     text: textEmail,
   };
 
-  transporter.sendMail(mailOptions, function (error) {
-    error && console.log(error);
-  });
+  try {
+    await transporter.sendMail(mailOptions);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 module.exports = sendEmail;

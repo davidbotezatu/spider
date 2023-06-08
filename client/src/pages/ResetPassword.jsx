@@ -18,7 +18,10 @@ const ResetPassword = () => {
     try {
       const res = await axios.post(`${API_BASE_URL}/api/reset-password`, data);
       if (res.status) {
-        HandleToast("success", "Editare proiect efectuată cu succes!");
+        HandleToast(
+          "info",
+          "Vei primi un email cu un link pentru resetare, dacă adresa ta de email există în baza de date."
+        );
       }
     } catch (error) {
       console.log("Reset Password error:", error);
@@ -27,23 +30,6 @@ const ResetPassword = () => {
         "Vei primi un email cu un link pentru resetare, dacă adresa ta de email există în baza de date."
       );
     }
-
-    /** axios
-      .post(`${API_BASE_URL}/api/reset-password`, data)
-      .then((res) => {
-        if (res)
-          HandleToast(
-            "info",
-            "Vei primi un email cu un link pentru resetare, dacă adresa ta de email există în baza de date."
-          );
-      })
-      .catch((err) => {
-        console.log("Reset Password error:", err);
-        HandleToast(
-          "info",
-          "Vei primi un email cu un link pentru resetare, dacă adresa ta de email există în baza de date."
-        );
-      }); */
   };
 
   return (
