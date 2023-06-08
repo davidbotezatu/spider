@@ -17,6 +17,7 @@ const ResetPassword = () => {
   const submitForm = async (data) => {
     try {
       const res = await axios.post(`${API_BASE_URL}/api/reset-password`, data);
+      console.log("RP response:", res);
       if (res.status) {
         HandleToast(
           "info",
