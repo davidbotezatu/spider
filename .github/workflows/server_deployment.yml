@@ -1,7 +1,9 @@
 name: server_deploy_status
 
 on:
-  workflow_dispatch:
+  push:
+    paths:
+      - 'server/**'
 
 jobs:
   build:
