@@ -25,7 +25,7 @@ const App = () => {
 
       <div className="flex w-full flex-grow flex-col">
         {isValidToken && <Navbar />}
-        <main className="h-full bg-gray-100 p-10">
+        <main className="h-full bg-gray-100 p-10 dark:bg-slate-800 dark:text-white">
           {/* Routes */}
           <Routes>
             {isValidToken || <Route path="/login" element={<Login />} />}

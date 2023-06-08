@@ -5,7 +5,7 @@ const Pagination = () => {
   const { totalPages, currentPage, setCurrentPage } = useStateContext();
 
   const defaultCss =
-    "text-gray-900 ring-1 ring-inset ring-gray-300 focus:outline-offset-0";
+    "text-gray-900 ring-1 ring-inset ring-gray-300 focus:outline-offset-0 dark:text-white";
   const currentPageCss =
     "z-10 bg-cyan-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600";
 

@@ -9,12 +9,12 @@ const StatusColumn = ({ status, tasks }) => {
     <Droppable key={status.id} droppableId={`${status.id}`}>
       {(provided) => (
         <div
-          className="m-2 flex w-60 flex-col overflow-hidden rounded bg-gray-200"
+          className="m-2 flex w-60 flex-col overflow-hidden rounded bg-gray-200 dark:bg-gray-700"
           {...provided.droppableProps}
           ref={provided.innerRef}
         >
           <h2
-            className={`sticky top-0 z-10 bg-gray-300 p-2 ${
+            className={`sticky top-0 z-10 bg-gray-300 p-2 dark:bg-gray-700 ${
               statusColors[status.id]
             } border-l-4`}
           >

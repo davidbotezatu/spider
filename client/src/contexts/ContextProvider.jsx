@@ -72,6 +72,19 @@ export const ContextProvider = ({ children }) => {
     }
   }, [accessToken]);
 
+  // Light/Dark theme
+  const [theme, setTheme] = useState(() => {
+    const userPref =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+    return userPref ? "dark" : "light";
+  });
+
+  useEffect(() => {
+    document.documentElement.className = theme === "dark" ? "dark" : "";
+  }, [theme]);
+
   return (
     <StateContext.Provider
       value={{
@@ -87,6 +100,8 @@ export const ContextProvider = ({ children }) => {
         logout,
         isValidToken,
         statusColors,
+        theme,
+        setTheme,
       }}
     >
       {children}

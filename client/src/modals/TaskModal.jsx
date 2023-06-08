@@ -141,10 +141,10 @@ const TaskModal = ({ isOpen, closeModal, onSubmit, editTask }) => {
       className="absolute left-0 top-0 z-50 box-border grid h-full w-full place-items-center overflow-y-auto bg-opacity-50 px-[40px] py-[40px] duration-300"
       overlayClassName="modal-overlay fixed inset-0 bg-black bg-opacity-50 z-40"
     >
-      <div className="relative z-50 w-4/5 max-w-[1000px] rounded-md bg-white px-8 py-6 shadow-lg duration-300">
+      <div className="relative z-50 w-4/5 max-w-[1000px] rounded-md bg-white px-8 py-6 shadow-lg duration-300 dark:bg-gray-700 dark:text-white">
         <div className="flex">
           <span className=" flex flex-grow items-center">
-            <h1 className=" ml-1">
+            <h1 className="mb-4 text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-2xl">
               {editTask ? "Editare task" : "Adăugare task nou"}
             </h1>
           </span>
@@ -157,12 +157,12 @@ const TaskModal = ({ isOpen, closeModal, onSubmit, editTask }) => {
         </div>
 
         <form onSubmit={handleSubmit(submitForm)}>
-          <div className="grid grid-cols-5 gap-16">
+          <div className="grid w-full grid-cols-5 gap-16 rounded-lg bg-white dark:bg-gray-700">
             <section className=" col-span-3">
               <div className="relative">
                 <textarea
                   name="titlu"
-                  className="hover:bg-grey-300 box-border w-full resize-none overflow-y-hidden rounded-md border p-3 text-2xl outline-2 focus-visible:bg-white"
+                  className="hover:bg-grey-300 box-border w-full resize-none overflow-y-hidden rounded-md border p-3 text-2xl outline-2 focus-visible:bg-white dark:bg-gray-700"
                   cols="30"
                   rows="1"
                   placeholder="Adaugă titlul task-ului"
@@ -173,7 +173,7 @@ const TaskModal = ({ isOpen, closeModal, onSubmit, editTask }) => {
                 <div className="relative">
                   <textarea
                     name="descriere"
-                    className="hover:bg-grey-300 box-border w-full resize-none overflow-y-hidden rounded-md border p-3 outline-2 focus-visible:bg-white"
+                    className="hover:bg-grey-300 box-border w-full resize-none overflow-y-hidden rounded-md border p-3 outline-2 focus-visible:bg-white dark:bg-gray-700"
                     cols="30"
                     rows="10"
                     placeholder="Adaugă o descriere"

@@ -7,7 +7,7 @@ const TaskCard = ({ task, index }) => {
     <Draggable draggableId={`${task.id}`} index={index}>
       {(provided) => (
         <div
-          className={`m-2 rounded bg-white p-2 shadow-sm ${
+          className={`m-2 rounded bg-white p-2 shadow-sm dark:bg-gray-600 ${
             statusColors[task.status]
           } border-l-4`}
           {...provided.draggableProps}
@@ -22,7 +22,7 @@ const TaskCard = ({ task, index }) => {
             />
             <div className="ml-2">
               <p className="font-medium">"{task.titlu}"</p>
-              <span className="rounded bg-gray-200 px-2 py-1 text-xs">
+              <span className="rounded bg-gray-200 px-2 py-1 text-xs dark:bg-gray-500">
                 {task.assigneeName.nume}
               </span>
             </div>

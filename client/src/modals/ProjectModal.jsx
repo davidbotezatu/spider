@@ -116,7 +116,7 @@ const ProjectModal = ({ isOpen, closeModal, onSubmit, editProject }) => {
       className="modal fixed inset-0 z-50 flex items-center justify-center"
       overlayClassName="modal-overlay fixed inset-0 bg-black bg-opacity-50 z-40"
     >
-      <div className="modal-content z-50 rounded-lg bg-white p-4">
+      <div className="modal-content z-50 rounded-lg bg-white p-4 dark:bg-gray-800">
         <div className="mb-4 flex justify-between">
           <h1 className="mr-4 text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-2xl">
             {editProject ? "Editare proiect" : "Adăugare proiect nou"}
