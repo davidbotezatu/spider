@@ -22,7 +22,9 @@ exports.resetPassReq = async (req, res) => {
     sendEmail(email, em.subiect, em.text);
     res.status(200).json({ message: "Email trimis" });
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    res
+      .status(500)
+      .json({ message: `Eroare resetPass - resetPassReq: ${error}` });
   }
 };
 
