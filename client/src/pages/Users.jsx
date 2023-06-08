@@ -32,7 +32,7 @@ const Users = () => {
         setUsers(response.data.users);
         setTotalPages(response.data.totalPages);
       } catch (error) {
-        console.error("Error fetching users:", error);
+        console.error("Eroare Users -> useEffect() -> fetchUsers():", error);
         if (error.response && error.response.status === 403) {
           nav("/changepass");
           HandleToast("info", "Parola trebuie schimbată");
