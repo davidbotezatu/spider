@@ -43,7 +43,7 @@ exports.getTasks = async (req, res) => {
       res.json({ tasks: tasks.rows, totalPages });
     }
   } catch (error) {
-    console.log("Eroare la getTasks: ", error);
+    console.log("Eroare taskController - getTasks: ", error);
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -64,7 +64,7 @@ exports.addTask = async (req, res) => {
 
     res.status(200).json({ message: "Task creat cu succes" });
   } catch (error) {
-    console.log("Eroare la addTask: ", error);
+    console.log("Eroare taskController - addTask: ", error);
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -83,7 +83,7 @@ exports.updateTask = async (req, res) => {
     await task.update({ titlu, descriere, assignee, status });
     res.status(200).json({ message: "Task modificat cu succes" });
   } catch (error) {
-    console.error("Eroare la updateTask:", error);
+    console.error("Eroare taskController - updateTask:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -99,7 +99,7 @@ exports.deleteTask = async (req, res) => {
     await Task.destroy({ where: { id: req.params.id } });
     res.status(200).json({ message: "Task sters cu succes" });
   } catch (error) {
-    console.error("Eroare la deleteTask:", error);
+    console.error("Eroare taskController - deleteTask:", error);
     res.status(500).json({ message: "Server error" });
   }
 };

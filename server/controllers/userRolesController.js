@@ -5,7 +5,7 @@ exports.getUserRoles = async (req, res) => {
     const roles = await UserRole.findAll();
     res.json(roles);
   } catch (error) {
-    console.log("Rolurile nu pot fi preluate: ", error);
+    console.log("Eroare userRolesController - getUserRoles: ", error);
     res.status(500).json({ error: "Server error" });
   }
 };
