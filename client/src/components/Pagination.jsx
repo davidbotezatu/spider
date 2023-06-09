@@ -36,7 +36,7 @@ const Pagination = () => {
   return (
     <div className="flex items-center justify-between px-4 pt-3">
       <div>
-        <p className="text-sm text-gray-700">
+        <p className="text-sm text-gray-700 dark:text-white">
           Pagina <span className="font-medium">{currentPage}</span> din
           <span className="font-medium"> {totalPages}</span>
         </p>
